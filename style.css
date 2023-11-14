@@ -1,0 +1,114 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    min-height: 250vh;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgb(13, 155, 216), rgb(210, 4, 165), rgb(118, 19, 120));
+    z-index: -6;
+    opacity: 5; /* Increase opacity for more visibility */
+    animation: waveAnimation 5s linear infinite; /* Faster and linear animation */
+}
+
+header {
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+.login-button {
+    font-family: 'Montserrat', sans-serif;
+    padding: 8px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8em;
+    background-color: #0000001b;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.login-button:hover {
+    background-color: #9a9a9a8a;
+    transform: scale(1.05);
+}
+
+.signup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.signup-button {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    padding: 15px;
+    width: 200px;
+    margin-top: 300px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 2em;
+    background-color: #0000002b;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.signup-button:hover {
+    background-color: #8f8f8f6a;
+    transform: scale(1.05);
+}
+
+.ml2 {
+    font-weight: 900;
+    font-size: 2em;
+}
+
+.ml2 .letter {
+    display: inline-block;
+    line-height: 1em;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes waveAnimation {
+    0% {
+        transform: scaleY(1);
+    }
+    50% {
+        transform: scaleY(1.8); /* Further increased intensity for more obvious effect */
+    }
+    100% {
+        transform: scaleY(1);
+    }
+}
