@@ -17,3 +17,11 @@ def home():
 def logged():
 
     return render_template("logedin.html", user=current_user)
+
+@views.route('/explore',methods = ['GET','POST'])
+def explore():
+    return render_template("explore.html")
+
+@views.route('/map',methods = ['GET','POST'])
+def map():
+    return render_template("map.html")
