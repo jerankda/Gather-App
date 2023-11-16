@@ -12,4 +12,8 @@ def home():
 
     return render_template("home.html", user=current_user)
 
+@views.route('/user', methods=['GET', 'POST'])
+@login_required
+def logged():
 
+    return render_template("logedin.html", user=current_user)
