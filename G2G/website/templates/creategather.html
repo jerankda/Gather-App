@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow: hidden; /* Prevent scrolling */
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Background animation */
+            background: linear-gradient(rgb(232, 4, 253), rgb(4, 31, 210), rgb(108, 19, 120)),
+                linear-gradient(rgb(27, 3, 71), rgb(4, 31, 210), rgb(87, 6, 62));
+            z-index: -6;
+            opacity: 0.7; /* Adjust opacity as needed */
+            animation: waveAnimation 5s linear infinite; /* Faster and linear animation */
+        }
+
+        @keyframes waveAnimation {
+            0% {
+                transform: scaleY(1);
+            }
+            50% {
+                transform: scaleY(1.8);
+            }
+            100% {
+                transform: scaleY(1);
+            }
+        }
+
+        .header-container {
+            text-align: center;
+            padding: 20px;
+            font-family: 'Quicksand', sans-serif; /* Use the Quicksand font */
+        }
+        
+        .header-container h1 {
+            font-size: 4em;
+            color: white;
+            margin: 0;
+        }
+        
+
+        .console-underscore {
+            display: inline-block;
+            position: relative;
+            top: -0.14em;
+            left: 10px;
+        }
+
+        /* Custom styling for the form */
+        .container {
+            background-color: rgba(43, 43, 43, 0.264);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+
+        /* Add some spacing between form elements */
+        .form-group {
+            margin-bottom: 15px; /* Adjust the margin for tighter spacing */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header-container">
+        <h1 id="text">Gather</h1>
+        <div class="console-underscore hidden" id="console">&#95;</div>
+    </div>
+
+    <div class="container mt-5">
+        <form>
+            <div class="form-group">
+                <input type="text" class="form-control" id="name" placeholder="Enter the name">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="location" placeholder="Enter the location">
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" id="description" rows="3"
+                    placeholder="Enter your description"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script>
+        // Paste your JavaScript code here
+        // ...
+
+        // function([string1, string2],target id,[color1,color2])    
+        consoleText(['Create Gather', 'Find Friends', 'Make Memories'], 'text', ['tomato', 'rebeccapurple', 'lightblue']);
+
+        function consoleText(words, id, color) {
+            if (color === undefined) color = 'white';
+            var visible = true;
+            var con = document.getElementById('console');
+            var letterCount = 1;
+            var x = 1;
+            var waiting = false;
+            var target = document.getElementById(id);
+            target.setAttribute('style', 'color:' + color);
+            window.setInterval(function () {
+                if (letterCount === 0 && waiting === false) {
+                    waiting = true;
+                    target.innerHTML = words[0].substring(0, letterCount);
+                    window.setTimeout(function () {
+                        var usedWord = words.shift();
+                        words.push(usedWord);
+                        x = 1;
+                        target.setAttribute('style', 'color:' + color);
+                        letterCount += x;
+                        waiting = false;
+                    }, 1000);
+                } else if (letterCount === words[0].length + 1 && waiting === false) {
+                    waiting = true;
+                    window.setTimeout(function () {
+                        x = -1;
+                        letterCount += x;
+                        waiting = false;
+                    }, 1000);
+                } else if (waiting === false) {
+                    target.innerHTML = words[0].substring(0, letterCount);
+                    letterCount += x;
+                }
+            }, 120);
+            window.setInterval(function () {
+                if (visible === true) {
+                    con.style.opacity = 0; // hide the underscore
+                    visible = false;
+                } else {
+                    con.style.opacity = 0; // show the underscore
+                    visible = true;
+                }
+            }, 0);
+        }
+        
+    </script>
+</body>
+
+</html>

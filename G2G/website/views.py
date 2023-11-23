@@ -18,3 +18,7 @@ def explore():
 @views.route('/map', methods=['GET', 'POST'])
 def map():
     return render_template("map.html")
+
+@views.route('/creategather', methods=['GET', 'POST'])
+def creategather():
+    return render_template("creategather.html")
