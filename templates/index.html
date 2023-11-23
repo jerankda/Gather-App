@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <style>
+        .my-form {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70%;
+        }
+
+        .msg-date{
+          font-size: 10px;
+          position: absolute;
+          right: 4px;
+          bottom: 4px;
+          color: rgba(107, 103, 103, 0.5)
+        }
+
+        .container {
+            border: 1px solid #ffffff;
+            border-radius: 8px;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+            margin-bottom: 24px;
+            padding-bottom: 50px;
+        }
+
+        .btn-danger {
+          background-color: rgb(255, 79, 79);
+          color: rgb(255, 255, 255)
+        }
+
+    </style>
+
+    <script>
+      function scrollToBottom() {
+          var container = document.querySelector('.container');
+          container.scrollTop = container.scrollHeight;
+      }
+
+      window.onload = function() {
+          scrollToBottom();
+      };
+    </script>
+
+</head>
+<body>
+
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Gather Gruppenchat</a>
+        </div>
+      </nav>
+    
+    <div class="container">
+        {% for message in messages %}
+        <div class="d-flex {%if name == message.user%} justify-content-end {% else %} justify-content-start {% endif %} mt-5">
+            <div class="card">
+                <div class="card-body">
+                  <b>{{ message.user }}:</b>
+                  {{ message.content }}
+                  <span class="msg-date"> {{message.created_at.strftime('%d.%m.%Y %H:%M')}}</span>
+                </div>
+              </div>
+        </div>
+        {% endfor %}
+
+
+        <form class="input-group mb-4 my-form" action = "" method="POST">
+            <input type="text" name="content" class="form-control" placeholder="Wo Bier?">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Senden</button>
+            <button class="btn btn-danger" type="button" id="delete-messages-btn">Chat löschen</button>
+            <a href="/gather_maps" class="btn btn-primary">Gather Maps</a>
+        </form>
+    </div>
+
+
+    <script>
+      document.querySelector('.my-form').addEventListener('submit', function () {
+          scrollToBottom();
+      });
+  
+      document.getElementById('delete-messages-btn').addEventListener('click', function () {
+          if (confirm('Möchten Sie wirklich alle Nachrichten löschen?')) {
+              fetch('/delete_messages', {
+                  method: 'POST',
+              })
+                  .then(response => {
+                      if (response.ok) {
+                          window.location.href = window.location.href;
+                      }
+                  })
+                  .catch(error => console.error('Error:', error));
+          }
+      });
+  </script>
+
+</body>
+</html>
