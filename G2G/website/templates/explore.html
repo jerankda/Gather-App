@@ -14,16 +14,32 @@
 <body>
     <header class="container-fluid d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-            <h1 class="ml2">Gather</h1>
+            <h1 class="ml2">Gather</h1> </div>
         </div>
+        <!-- Centered Headline -->
+        <div class="centered-headline">
+            <h2 class="ml2">Welcome back {user}!</h2>
+        </div>
+       
     </header>
-    <!-- Sidebar/Information Object -->
     <div class="sidebar">
-        <!-- Your content here -->
-        <h2 class="ml2">Upcomins</h2>
-        <p>You can add more content here.</p>
-        <!-- End of content -->
+        <a href="#" class="sidebar-button">
+            <!-- First button content -->
+            <h2 class="ml2">Upcoming</h2>
+            <p>You can add more content here.</p>
+        </a>
+        <a href="#" class="sidebar-button">
+            <!-- Second button content -->
+            <h2 class="ml2">Events</h2>
+            <p>Additional content for the second button.</p>
+        </a>
+        <a href="#" class="sidebar-button">
+            <!-- Third button content -->
+            <h2 class="ml2">News</h2>
+            <p>Additional content for the third button.</p>
+        </a>
     </div>
+   
  
     <footer class="transparent-footer">
         <div class="container">
@@ -115,17 +131,32 @@
     }
  
     .sidebar {
-            position: absolute;
-            left: 30px;
-            top: calc(100px + 20px); /* Adjust based on your header's height and margin */
-            bottom: 20px;
-            width: calc(33.33% - 20px); /* One-third of the screen */
-            background-color: rgba(200, 200, 200, 0.3); /* Light gray with 30% opacity */
-            padding: 20px;
-            padding-left: 30px; /* Additional padding on the left side */
-            color: white;
-            border-radius: 10px; /* Rounded corners */
-        }
+    display: flex;
+    flex-direction: row; /* Arrange items horizontally */
+    align-items: center; /* Vertically center items */
+    justify-content: center; /* Horizontally center items */
+    gap: 20px; /* Add space between buttons */
+    margin-top: center; /* Push the sidebar to the middle */
+}
+ 
+.sidebar-button {
+    flex: 1; /* Each button takes an equal portion of the width */
+    text-decoration: none;
+    color: inherit;
+    height: auto; /* Adjusts height automatically based on content */
+    padding: 20px;
+    background-color: rgba(200, 200, 200, 0.3); /* Light gray with 30% opacity */
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Prevent content overflow */
+}
+   
+        .centered-headline {
+    position: absolute;
+    top: 10%; /* Place it 50% from the top */
+    left: 50%; /* Place it 50% from the left */
+    transform: translate(-50%, -50%); /* Center it using translate */
+    color: #ffffff;
+}
  
  
     .transparent-footer a:hover {
