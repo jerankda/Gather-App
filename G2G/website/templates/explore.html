@@ -1,27 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
+ 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centered Button</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-    </style>
+    <title>Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
 </head>
+ 
 <body>
-    <div class="btn-container">
-        <a class="btn btn-primary" href ="/map">Map</a>
+    <header class="container-fluid d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <h1 class="ml2">Gather</h1>
+        </div>
+    </header>
+    <!-- Sidebar/Information Object -->
+    <div class="sidebar">
+        <!-- Your content here -->
+        <h2 class="ml2">Upcomins</h2>
+        <p>You can add more content here.</p>
+        <!-- End of content -->
     </div>
+ 
+    <footer class="transparent-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- No text or links here -->
+                </div>
+            </div>
+        </div>
+    </footer>
+ 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+    <script src="script.js"></script>
+ 
+    <script>
+        function toggleMenu() {
+            // Add your logic to toggle the menu
+            console.log("Menu button clicked");
+        }
+    </script>
 </body>
+ 
 </html>
+ 
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        overflow: hidden; /* Prevent scrolling */
+        position: relative;
+    }
+ 
+    body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(rgb(232, 4, 253), rgb(4, 31, 210), rgb(108, 19, 120));
+        z-index: -6;
+        opacity: 5; /* Increase opacity for more visibility */
+        animation: waveAnimation 5s linear infinite; /* Faster and linear animation */
+    }
+ 
+    .transparent-footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: transparent;
+        padding: 30px 0;
+        color: white;
+    }
+ 
+    .transparent-footer .container {
+        display: flex;
+        justify-content: flex-start;
+    }
+ 
+    .transparent-footer ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+ 
+    .transparent-footer ul li {
+        margin-right: 20px;
+        display: inline;
+    }
+ 
+    .transparent-footer a {
+        color: white;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+ 
+    .sidebar {
+            position: absolute;
+            left: 30px;
+            top: calc(100px + 20px); /* Adjust based on your header's height and margin */
+            bottom: 20px;
+            width: calc(33.33% - 20px); /* One-third of the screen */
+            background-color: rgba(200, 200, 200, 0.3); /* Light gray with 30% opacity */
+            padding: 20px;
+            padding-left: 30px; /* Additional padding on the left side */
+            color: white;
+            border-radius: 10px; /* Rounded corners */
+        }
+ 
+ 
+    .transparent-footer a:hover {
+        color: #6c757d;
+    }
+ 
+    .d-flex {
+        justify-content: space-between;
+    }
+ 
+    .ml-2 {
+        margin-left: 2px;
+    }
+ 
+    .ml2 {
+        font-weight: 900;
+        font-size: 2em;
+    }
+ 
+    .ml2 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+ 
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+ 
+    @keyframes waveAnimation {
+        0% {
+            transform: scaleY(1);
+        }
+        50% {
+            transform: scaleY(1.8);
+        }
+        100% {
+            transform: scaleY(1);
+        }
+    }
+</style>
