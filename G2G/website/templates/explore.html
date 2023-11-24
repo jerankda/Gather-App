@@ -80,21 +80,30 @@
         }
 
         .clickable-object {
-            flex: 1;
-            background-color: rgba(169, 169, 169, 0.3); /* Light gray with 30% opacity */
-            cursor: pointer;
-            margin: 0 7.5px 20px; /* Half of 15px margin horizontally, 20px margin from bottom */
-            border-radius: 10px; /* Rounded corners */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s ease; /* Transition for hover effect */
-        }
+    flex: 1;
+    background-color: rgba(169, 169, 169, 0.3);
+    cursor: pointer;
+    margin: 0 7.5px 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    font-family: 'Tahoma', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Apply Tahoma font */
+    text-decoration: none; /* Remove underline */
+    color: white; /* Set text color to white */
+}
 
-        .clickable-object:hover {
-            background-color: rgba(169, 169, 169, 0.5); /* Light gray with increased opacity */
-            transform: scale(1.05); /* Slightly increase size on hover */
-        }
+.clickable-object a {
+    display: block; /* Ensure the <a> tag takes up the full space */
+    font-family: 'Tahoma', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Apply Tahoma font */
+    color: white; /* Inherit the color from the parent (.clickable-object) */
+}
+
+.clickable-object:hover {
+    background-color: rgba(169, 169, 169, 0.5);
+    transform: scale(1.05);
+}
     </style>
 </head>
 
@@ -105,9 +114,9 @@
     </div>
 
     <div class="container mt-5">
-        <div class="clickable-object">content</div>
-        <div class="clickable-object">content</div>
-        <div class="clickable-object">content</div>
+        <a href="#" class="clickable-object">Find a Gather</a>
+        <a href="/creategather" class="clickable-object">Create a Gather</a>
+        <a href="/map" class="clickable-object">Gather Map</a>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
