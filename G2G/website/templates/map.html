@@ -9,6 +9,7 @@
  
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
  
     <style>
         body, html {
@@ -40,30 +41,54 @@
  
     <div id="map"></div>
     <div class="btn-container">
-        <a class="btn btn-primary" href ="/explore">Return
-        </a>
+        <button class="btn btn-primary" onclick="goToOriginalPage()">Return to chat</button>
     </div>
  
     <script>
         var mymap;
- 
+   
         function goToOriginalPage() {
-            window.location.href = '/';
+            window.location.href = '/explore';
         }
- 
+   
+        function fetchMarkers() {
+            $.get('/get_markers', function(data) {
+                data.forEach(function(marker) {
+                    L.marker([marker.lat, marker.lng]).addTo(mymap).bindPopup(marker.name);
+                });
+            });
+        }
+   
+        function addMarkerToDatabase(name, latlng) {
+            $.ajax({
+                url: '/add_marker',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ name: name, lat: latlng.lat, lng: latlng.lng }),
+                success: function(response) {
+                    console.log(response.message);
+                }
+            });
+        }
+   
         document.addEventListener("DOMContentLoaded", function () {
             mymap = L.map('map').setView([51.505, -0.09], 13);
- 
+   
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(mymap);
- 
+   
+            fetchMarkers();
+   
             mymap.on('click', function (e) {
                 var coordinates = e.latlng;
- 
-                var name = prompt("Enter a name for the marker:");
- 
-                L.marker(coordinates).addTo(mymap).bindPopup(name);
+   
+                var name = prompt("Wie soll dein Gather heißen? ^^");
+                var desciption = prompt("Schreib deinen Freunden eine kurze Beschreibung deines Gathers :D");
+                if (name) {
+                    L.marker(coordinates).addTo(mymap).bindPopup(name);
+                    addMarkerToDatabase(name, coordinates);
+                }
             });
         });
     </script>

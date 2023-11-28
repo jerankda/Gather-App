@@ -19,9 +19,12 @@ def create_app():
     # Importing blueprints for different parts of the app
     from .views import views
     from .auth import auth
+    from .create import create
+    from . map_marker import map_marker
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
-
+    app.register_blueprint(create,url_prefix='/')
+    app.register_blueprint(map_marker, url_prefix='/')
     # Import User model and create database tables
     from .models import User
     with app.app_context():
