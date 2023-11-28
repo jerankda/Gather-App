@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request , flash
 from . import db
 from .models import Gather
 
@@ -11,7 +11,15 @@ def create_gather():
                 location = request.form.get('location')
                 description = request.form.get('description')
 
-                new_gather = Gather(Name=name,Description = description, Location = location )
-                db.session.add(new_gather)
-                db.session.commit()
-                print("Hundesohn")
+                if len(name) == 0:
+                        flash('Please give your Gather a name.', category='error')
+                if len(location) == 0:
+                        flash('Add a location to your Gather.', category='error')
+                if len(description) == 0:
+                        flash('Add a description.', category='error')
+                else:        
+                        new_gather = Gather(name=name,description = description, location = location )
+                        db.session.add(new_gather)
+                        db.session.commit()
+                        return render_template("explore.html")    # !!FÜR findGather.html AUSTAUSCHEN !!
+                return render_template("creategather.html")                

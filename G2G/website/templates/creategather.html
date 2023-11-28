@@ -90,21 +90,46 @@
 </head>
 
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            {% if category == 'error' %}
+                <div class="alert alert-danger alter-dismissible fade show" role="alert">
+                    {% if 'password' in message.lower() %}
+                        {{ message|replace('password', 'Passwords') }}
+                    {% else %}
+                        {{ message }}
+                    {% endif %}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% else %}
+                <div class="alert alert-success alter-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
     <div class="header-container">
         <h1 id="text">Gather</h1>
         <div class="console-underscore hidden" id="console">&#95;</div>
     </div>
 
     <div class="container mt-5">
-        <form>
+        <form action="/create"method="POST">
             <div class="form-group">
-                <input type="text" class="form-control" id="name" placeholder="Enter the name">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter the name">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="location" placeholder="Enter the location">
+                <input type="text" class="form-control" id="location" name="location" placeholder="Enter the location">
             </div>
             <div class="form-group">
-                <textarea class="form-control" id="description" rows="3"
+                <textarea class="form-control" id="description" name="description" rows="3"
                     placeholder="Enter your description"></textarea>
             </div>
             <button  type="submit" class="btn btn-primary btn-block">Submit</button>
