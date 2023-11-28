@@ -94,6 +94,15 @@
     color: white; /* Set text color to white */
 }
 
+
+.top-right-button {
+    position: absolute;
+    top: 20px; /* Adjust as needed */
+    right: 20px; /* Adjust as needed */
+    z-index: 10; /* Ensure it's above other elements */
+}
+
+
 .clickable-object a {
     display: block; /* Ensure the <a> tag takes up the full space */
     font-family: 'Tahoma', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Apply Tahoma font */
@@ -112,6 +121,11 @@
         <h1 id="text">Gather</h1>
         <div class="console-underscore hidden" id="console">&#95;</div>
     </div>
+
+<div class="top-right-button">
+    <a href="/logout" class="btn btn-danger">Log out</a>
+</div>
+
 
     <div class="container mt-5">
         <a href="#" class="clickable-object">Find a Gather</a>

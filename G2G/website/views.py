@@ -11,14 +11,15 @@ def home():
 
 # Renders explore template
 @views.route('/explore', methods=['GET', 'POST'])
+@login_required
 def explore():
-    return render_template("explore.html")
+    return render_template("explore.html",user=current_user)
 
 # Renders map template
 @views.route('/map', methods=['GET', 'POST'])
 def map():
-    return render_template("map.html")
+    return render_template("map.html",user=current_user)
 
 @views.route('/creategather', methods=['GET', 'POST'])
 def creategather():
-    return render_template("creategather.html")
+    return render_template("creategather.html",user=current_user)
