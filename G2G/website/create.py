@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, request , flash
+from flask import Blueprint, render_template, request , flash 
 from . import db
-from .models import Gather
+from .models import Gather, User
+from flask_login import current_user
 
 create = Blueprint('create', __name__)
 
@@ -10,6 +11,7 @@ def create_gather():
                 name = request.form.get('name')
                 location = request.form.get('location')
                 description = request.form.get('description')
+                currentUser = current_user.id
 
                 if len(name) == 0:
                         flash('Please give your Gather a name.', category='error')
@@ -18,8 +20,8 @@ def create_gather():
                 if len(description) == 0:
                         flash('Add a description.', category='error')
                 else:        
-                        new_gather = Gather(name=name,description = description, location = location )
+                        new_gather = Gather(name=name,description = description, location = location, user_id = currentUser)
                         db.session.add(new_gather)
                         db.session.commit()
-                        return render_template("explore.html")    # !!FÜR findGather.html AUSTAUSCHEN !!
+                        return render_template("gather_find.html")    # !!FÜR findGather.html AUSTAUSCHEN !!
                 return render_template("creategather.html")                
