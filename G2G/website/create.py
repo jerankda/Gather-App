@@ -12,6 +12,7 @@ def create_gather():
                 location = request.form.get('location')
                 description = request.form.get('description')
                 currentUser = current_user.id
+                Host = current_user.email
 
                 if len(name) == 0:
                         flash('Please give your Gather a name.', category='error')
@@ -20,7 +21,7 @@ def create_gather():
                 if len(description) == 0:
                         flash('Add a description.', category='error')
                 else:        
-                        new_gather = Gather(name=name,description = description, location = location, user_id = currentUser)
+                        new_gather = Gather(name=name,description = description, location = location, user_id = currentUser, Host = Host)
                         db.session.add(new_gather)
                         db.session.commit()
                         return render_template("gather_find.html")    # !!FÜR findGather.html AUSTAUSCHEN !!
