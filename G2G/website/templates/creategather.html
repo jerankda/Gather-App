@@ -86,10 +86,23 @@
         .form-group {
             margin-bottom: 15px; /* Adjust the margin for tighter spacing */
         }
+
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            background: rgba(0, 0, 255, 0.5); /* Semi-transparent blue background */
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
 <body>
+    <a href="/explore" class="btn btn-primary back-button">&#8592;</a>
+
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         {% for category, message in messages %}

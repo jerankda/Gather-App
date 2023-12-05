@@ -20,10 +20,12 @@ def explore():
 def map():
     return render_template("map.html",user=current_user)
 
+# Renders the create gather page
 @views.route('/creategather', methods=['GET', 'POST'])
 def creategather():
     return render_template("creategather.html",user=current_user)
 
+# Renders the gather finding page
 @views.route('/gather_find', methods=['GET', 'POST'])
 def gather_find():
     return render_template("gather_find.html",user=current_user)

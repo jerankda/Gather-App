@@ -5,6 +5,7 @@ from flask_login import current_user
 
 create = Blueprint('create', __name__)
 
+# create a gather and add it to databank
 @create.route('/create',methods=['GET','POST'])
 def create_gather():
         if request.method == 'POST':

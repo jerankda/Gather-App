@@ -27,11 +27,23 @@
             margin: auto;
             margin-top: 40px;
         }
+
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            background: rgba(0, 0, 255, 0.5); /* Semi-transparent blue background */
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
 
-    <a href="/explore" class="btn btn-danger">Return</a>
+    <a href="/explore" class="btn btn-primary back-button">&#8592;</a>
+
 <div class="container">
     <form action="/angezeigen" method="POST">
         <button type="submit" class="btn btn-primary mt-3">refresh</button>

@@ -17,14 +17,6 @@
             margin: 0;
         }
  
-        .btn-container {
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 400;
-        }
- 
         .btn-primary {
             padding: 10px;
             text-align: center;
@@ -34,22 +26,30 @@
             height: 100vh;
             z-index: 1;
         }
+
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 50px;
+            color: white;
+            background: rgba(0, 0, 255, 0.5); /* Semi-transparent blue background */
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 400;
+        }
     </style>
  
 </head>
 <body>
- 
+
+    <a href="/explore" class="btn btn-primary back-button">&#8592;</a>
+
     <div id="map"></div>
-    <div class="btn-container">
-        <button class="btn btn-primary" onclick="goToOriginalPage()">Return</button>
-    </div>
  
     <script>
         var mymap;
    
-        function goToOriginalPage() {
-            window.location.href = '/explore';
-        }
    
         function fetchMarkers() {
             $.get('/get_markers', function(data) {

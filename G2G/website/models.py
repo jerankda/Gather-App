@@ -16,7 +16,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150))
     Gathers = db.relationship('Gather', secondary=user_gather_association, back_populates='users')
    
-    #creating a Database for the Gathers
+#creating a Database for the Gathers
 class Gather(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(150))
@@ -26,7 +26,7 @@ class Gather(db.Model, UserMixin):
     Host = db.Column(db.String(20))
     users = db.relationship('User', secondary=user_gather_association, back_populates='Gathers')
 
-    #creating a Database for the map pins
+#creating a Database for the map pins
 class Marker(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
