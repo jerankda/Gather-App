@@ -9,6 +9,12 @@
 
     <style>
         body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
             background: linear-gradient(rgb(4, 31, 210), rgb(108, 19, 120));
         }
 
@@ -27,7 +33,7 @@
 
 <div class="container">
     <form action="/angezeigen" method="POST">
-        <button type="submit" class="btn btn-primary mt-3">Show Gathers</button>
+        <button type="submit" class="btn btn-primary mt-3">refresh</button>
     </form>
 
     {% for Gather in Gathers %}
