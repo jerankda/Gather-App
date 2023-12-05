@@ -44,6 +44,12 @@
                 {{ Gather.description }}
                 <p>Location: {{ Gather.location }}</p>
                 <p>Host: {{ Gather.Host }}</p>
+                <p>Guests:</p>
+                <ul>
+                    {% for user in Gather.users %}
+                        <li>{{ user.email }}</li>
+                    {% endfor %}
+                </ul>
                 <form action="/join_gather" method="POST">
                     <input type="hidden" name="gather_id" value="{{ Gather.id }}">
                     <button type="submit" class="btn btn-success">Join Gather</button>
