@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+ 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,11 +9,11 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-
+ 
     <!-- Include Vina Sans font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vina+Sans:wght@300&display=swap">
 </head>
-
+ 
 <body>
     <header class="container-fluid d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
@@ -21,16 +21,16 @@
         </div>
         <a class="login-button btn btn-primary" href="/login">Login</a>
     </header>
-
+ 
     <div class="caption-container">
         <h2 class="caption-text animated">Gather</h2>
     </div>
-
+ 
     <div class="signup-container">
-        <img src="{{ url_for('static', filename='assets/party.png') }}" alt="Party Image" style="width: 100%; max-width: 650px; margin-top: 100px; animation: pulsate 2s infinite;">
+        <img src="{{ url_for('static', filename='assets/party.png') }}" alt="Party Image" style="width: 100%; max-width: 400px; margin-top: 5%; animation: pulsate 2s infinite;">
         <a class="signup-button btn btn-success" href="/sign-up">Sign Up</a>
     </div>
-
+ 
     <footer class="transparent-footer">
         <div class="container">
             <div class="row">
@@ -44,7 +44,7 @@
             </div>
         </div>
     </footer>
-
+ 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -56,13 +56,13 @@
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
     <script src="script.js"></script>
-
+ 
     <script>
         function toggleMenu() {
             console.log("Menu button clicked");
         }
     </script>
-
+ 
     <style>
         body {
             margin: 0;
@@ -74,7 +74,7 @@
             overflow: hidden;
             position: relative;
         }
-
+ 
         body::before {
             content: "";
             position: absolute;
@@ -87,7 +87,7 @@
             opacity: 5;
             animation: waveAnimation 5s linear infinite;
         }
-
+ 
         .transparent-footer {
             position: absolute;
             bottom: 0;
@@ -98,48 +98,48 @@
             color: white;
             z-index: 1;
         }
-
+ 
         .transparent-footer .container {
             display: flex;
             justify-content: center;
         }
-
+ 
         .transparent-footer ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-
+ 
         .transparent-footer ul li {
             margin-right: 20px;
             display: inline;
         }
-
+ 
         .transparent-footer a {
             color: white;
             text-decoration: none;
             transition: color 0.3s ease;
         }
-
+ 
         .transparent-footer a:hover {
             color: #6c757d;
         }
-
+ 
         .d-flex {
             justify-content: space-between;
         }
-
+ 
         .ml-2 {
             margin-left: 2px;
         }
-
+ 
         .signup-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin-bottom: 0px;
         }
-
+ 
         .login-button {
             font-family: 'Montserrat', sans-serif;
             border: none;
@@ -148,7 +148,7 @@
             font-size: 0,5em;
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
-
+ 
         .signup-button {
             font-family: 'Montserrat', sans-serif;
             border: none;
@@ -157,52 +157,52 @@
             font-size: 2em;
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
-
+ 
         .login-button:hover,
         .signup-button:hover {
             transform: scale(1.05);
             background-color: #0000001b;
             color: #fff;
         }
-
+ 
         .login-button:active,
         .signup-button:active {
             background-color: #0000001b;
             color: #fff;
         }
-
+ 
         .login-button {
             padding: 8px;
             color: white;
             background-color: #0000001b;
         }
-
+ 
         .signup-button {
             font-weight: 700;
             padding: 15px;
             width: 200px;
-            margin-top: 150px;
+            margin-top: 5%;
             color: white;
             background-color: #0000002b;
         }
-
+ 
         .ml2 {
             font-weight: 900;
             font-size: 2em;
         }
-
+ 
         .ml2 .letter {
             display: inline-block;
             line-height: 1em;
         }
-
+ 
         @keyframes fadeInUp {
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-
+ 
         @keyframes waveAnimation {
             0% {
                 transform: scaleY(1);
@@ -214,7 +214,7 @@
                 transform: scaleY(1);
             }
         }
-
+ 
         @keyframes pulsate {
             0% {
                 transform: scale(1);
@@ -226,27 +226,27 @@
                 transform: scale(1);
             }
         }
-
+ 
         .caption-container {
             text-align: center;
-            margin-top: 50px;
+            margin-top: 0%;
         }
-
+ 
         .caption-text {
             font-family: 'Vina Sans', sans-serif;
             font-weight: 800;
-            margin-top: 200px;
+            margin-top: 0%;
             font-size: 8em;
             color: #ffffff;
             text-shadow: 0 0 50px rgba(8, 6, 132, 1);
             opacity: 0;
             animation: fadeInUp 2s forwards;
         }
-
+ 
         .animated {
             opacity: 1;
         }
     </style>
 </body>
-
+ 
 </html>
