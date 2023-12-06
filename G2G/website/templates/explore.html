@@ -10,22 +10,34 @@
             padding: 0;
             display: flex;
             height: 100vh;
-            font-family: 'Quicksand', sans-serif; /* Use Quicksand font for the body */
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        header {
+            position: fixed;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            z-index: 10;
         }
 
         .section {
             position: relative;
             flex: 1;
             box-sizing: border-box;
-            border: 0px solid #ddd; /* Optional: Add borders for better visibility */
-            overflow: hidden; /* Optional: Hide overflow content */
-            transition: transform 0.3s; /* Add smooth transition effects for transform */
+            border: 0px solid #ddd;
+            overflow: hidden;
+            transition: transform 0.3s;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             text-align: center;
             color: #fff;
-            font-size: 50px; /* Increase the text size */
+            font-size: 36px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .caption::before {
@@ -38,7 +50,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            filter: blur(5px); /* Apply initial blur effect */
+            filter: blur(5px);
             z-index: -1;
         }
 
@@ -48,15 +60,15 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1;
-            font-family: 'CustomFont', sans-serif; /* Use custom font */
-            font-weight: 600; /* Adjust font weight if needed */
-            text-shadow: 
-                0 0 5px #800080, 0 0 10px #9932CC, 0 0 15px #BA55D3, 0 0 20px #DA70D6, 0 0 25px #FF00FF, 0 0 30px #8A2BE2; /* Shades of pink/purple/blue stroke effect */
-            animation: glow 3s linear infinite; /* Add gradient animation */
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            color: rgb(255, 255, 255);
+            text-shadow: 0 0 5px #ff5770, 0 0 10px #ff5770, 0 0 15px #e4428d, 0 0 20px #c42da8, 0 0 25px #9e16c3, 0 0 30px #6501de;
+            animation: glowing 1.5s infinite alternate;
         }
 
         .section:hover {
-            transform: scale(1.2); /* Make the section 20% larger on hover */
+            transform: scale(1.2);
         }
 
         .section a {
@@ -68,51 +80,37 @@
         }
 
         #section1 { 
-            background-image: url('/static/assets/gg.jpg');
+            background-image: url('static/assets/gg.jpeg');
         }
 
         #section2 { 
-            background-image: url('/static/assets/map2.png');
+            background-image: url('static/assets/map2.png');
         }
 
         #section3 { 
-            background-image: url('/static/assets/crt.png');
+            background-image: url('statis/assets/suche.jpeg');
         }
 
-        @keyframes glow {
-            0% {
-                text-shadow: 
-                    0 0 5px #800080, 0 0 10px #9932CC, 0 0 15px #BA55D3, 0 0 20px #DA70D6, 0 0 25px #FF00FF, 0 0 30px #8A2BE2;
+        /* Keyframes for the glowing text animation */
+        @keyframes glowing {
+            0%, 100% {
+                text-shadow: 0 0 8px #ff5770, 0 0 20px #ff5770, 0 0 30px #e4428d, 0 0 40px #c42da8, 0 0 50px #9e16c3, 0 0 60px #6501de;
             }
-            20% {
-                text-shadow: 
-                    0 0 5px #8A2BE2, 0 0 10px #800080, 0 0 15px #9932CC, 0 0 20px #BA55D3, 0 0 25px #DA70D6, 0 0 30px #FF00FF;
-            }
-            40% {
-                text-shadow: 
-                    0 0 5px #FF00FF, 0 0 10px #8A2BE2, 0 0 15px #800080, 0 0 20px #9932CC, 0 0 25px #BA55D3, 0 0 30px #DA70D6;
-            }
-            60% {
-                text-shadow: 
-                    0 0 5px #DA70D6, 0 0 10px #FF00FF, 0 0 15px #8A2BE2, 0 0 20px #800080, 0 0 25px #9932CC, 0 0 30px #BA55D3;
-            }
-            80% {
-                text-shadow: 
-                    0 0 5px #BA55D3, 0 0 10px #DA70D6, 0 0 15px #FF00FF, 0 0 20px #8A2BE2, 0 0 25px #800080, 0 0 30px #9932CC;
-            }
-            100% {
-                text-shadow: 
-                    0 0 5px #800080, 0 0 10px #9932CC, 0 0 15px #BA55D3, 0 0 20px #DA70D6, 0 0 25px #FF00FF, 0 0 30px #8A2BE2;
+            50% {
+                text-shadow: 0 0 5px #ff5770, 0 0 10px #ff5770, 0 0 15px #e4428d, 0 0 20px #c42da8, 0 0 25px #9e16c3, 0 0 30px #6501de;
             }
         }
     </style>
     <title>Your Website Title</title>
 </head>
 <body>
+    <header>
+        <h1>My Website Header</h1>
+    </header>
 
     <div class="section" id="section1">
         <a href="/gather_find">
-            <div class="caption">Find Gather</div>
+            <div class="caption">Create Gather</div>
         </a>
     </div>
 
@@ -124,9 +122,8 @@
 
     <div class="section" id="section3">
         <a href="/creategather">
-            <div class="caption">Create Gather</div>
+            <div class="caption">Find Gather</div>
         </a>
     </div>
-
 </body>
 </html>
