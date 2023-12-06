@@ -19,8 +19,11 @@
             background-color: rgba(0, 0, 0, 0.3);
             color: white;
             text-align: center;
-            padding: 10px 0;
+            padding: 5px 0;
             z-index: 10;
+            display: flex; /* Flexbox to align items */
+            align-items: center; /* Align items vertically */
+            justify-content: center; /* Center items horizontally */
         }
 
         .section {
@@ -91,7 +94,6 @@
             background-image: url('static/assets/suche.jpeg');
         }
 
-        /* Keyframes for the glowing text animation */
         @keyframes glowing {
             0%, 100% {
                 text-shadow: 0 0 8px #ff5770, 0 0 20px #ff5770, 0 0 30px #e4428d, 0 0 40px #c42da8, 0 0 50px #9e16c3, 0 0 60px #6501de;
@@ -100,24 +102,48 @@
                 text-shadow: 0 0 5px #ff5770, 0 0 10px #ff5770, 0 0 15px #e4428d, 0 0 20px #c42da8, 0 0 25px #9e16c3, 0 0 30px #6501de;
             }
         }
+
         .back-button {
             position: absolute;
             top: 10px;
             left: 10px;
-            color: white;
-            background: rgba(162, 0, 255, 0.5); /* Semi-transparent blue background */
+            background: rgba(162, 0, 255, 0.0); /* Semi-transparent blue background */
             border: none;
             padding: 10px;
             border-radius: 5px;
             z-index: 400;
+            cursor: pointer; /* Add cursor pointer to indicate it's clickable */
+        }
+
+        .back-button img {
+            width: 30px; /* Example size, adjust as needed */
+            height: auto;
+        }
+
+        /* Add styles for the logout button */
+        .logout-button {
+            position: absolute;
+            top: 50%; /* Vertically align to the middle of the header */
+            right: 20px; /* Adjust the right distance as needed */
+            transform: translateY(-50%);
+            z-index: 400;
+        }
+
+        .logout-button img {
+            width: 30px;
+            height: auto;
         }
     </style>
     <title>Your Website Title</title>
 </head>
 <body>
-    <a href="/" class="btn btn-primary back-button">logout</a>
     <header>
-        <h1>Welcome on Gather {{ current_user.email }}!</h1>
+        <h1>Welcome to Gather {{ current_user.email }}!</h1>
+        
+        <!-- Logout button in the header -->
+        <a href="/" class="logout-button">
+            <img src="static/assets/logout.png" alt="Logout">
+        </a>
     </header>
 
     <div class="section" id="section1">
