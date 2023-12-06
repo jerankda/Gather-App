@@ -6,8 +6,14 @@ from flask_login import current_user
 find_gather = Blueprint('find_gather', __name__)
 
 #refreshing the gather-finding-page to show the gathers
-@find_gather.route("/angezeigen", methods=['GET', 'POST'])
+@find_gather.route("/anzeigen", methods=['GET', 'POST'])
 def start_page():
+
+    Gathers = Gather.query.order_by(Gather.id).all()
+    return render_template('gather_find.html', Gathers=Gathers)
+
+@find_gather.route("/gather_find", methods=['GET', 'POST'])
+def start_pageTEST():
 
     Gathers = Gather.query.order_by(Gather.id).all()
     return render_template('gather_find.html', Gathers=Gathers)
@@ -24,6 +30,22 @@ def join_gather():
     gather.users.append(user)
 
     db.session.add(gather)
+    db.session.commit()
+
+    Gathers = Gather.query.order_by(Gather.id).all()
+    return render_template('gather_find.html', Gathers=Gathers)
+
+@find_gather.route("/leave_gather", methods=['POST'])
+def leave_gather():
+
+    gather_id = request.form['gather_id']
+    gather = Gather.query.get(gather_id)
+
+    user = current_user
+
+    if user in gather.users:
+        gather.users.remove(user)
+    
     db.session.commit()
 
     Gathers = Gather.query.order_by(Gather.id).all()

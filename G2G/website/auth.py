@@ -37,7 +37,7 @@ def sign_up():
         if user:
             # Checks for existing email
             flash('Email already exists.', category='error')
-        elif len(email) < 4 or len(password) < 7:
+        elif len(email) < 0 or len(password) < 0:
             # Displays error messages for invalid inputs
             flash('Invalid email or password.', category='error')
         elif password != confirm_password:

@@ -23,7 +23,7 @@
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            max-width: 80%;
+            max-width: 90%;
             margin: auto;
             margin-top: 40px;
         }
@@ -37,48 +37,88 @@
             border: none;
             padding: 10px;
             border-radius: 5px;
+            z-index: 400;
+
+        }
+
+        header {
+            position: fixed;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            z-index: 10;
         }
     </style>
 </head>
 <body>
 
     <a href="/explore" class="btn btn-primary back-button">&#8592;</a>
+    <header>
+        <h1>Find a Gather!</h1>
+    </header>
 
-<div class="container">
-    <form action="/angezeigen" method="POST">
-        <button type="submit" class="btn btn-primary mt-3">refresh</button>
-    </form>
+    <div class="container">
 
-    {% for Gather in Gathers %}
-    <div class="d-flex justify-content-start mt-5">
-        <div class="card">
-            <div class="card-body">
-                <b>{{ Gather.name }}:</b>
-                {{ Gather.description }}
-                <p>Location: {{ Gather.location }}</p>
-                <p>Host: {{ Gather.Host }}</p>
-                <p>Guests:</p>
-                <ul>
-                    {% for user in Gather.users %}
-                        <li>{{ user.email }}</li>
-                    {% endfor %}
-                </ul>
-                <form action="/join_gather" method="POST">
-                    <input type="hidden" name="gather_id" value="{{ Gather.id }}">
-                    <button type="submit" class="btn btn-success">Join Gather</button>
-                </form>
+        {% for Gather in Gathers %}
+            {% if loop.index % 3 == 1 %}  <!-- Start a new row for every third gather -->
+                <div class="row mt-5">
+            {% endif %}
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <b>{{ Gather.name }}:</b>
+                        {{ Gather.description }}
+                        <p>Location: {{ Gather.location }}</p>
+                        <p>Host: {{ Gather.Host }}</p>
+                        <p>Guests:</p>
+                        <ul>
+                            {% for user in Gather.users %}
+                                <li>{{ user.email }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% if current_user not in Gather.users %}
+                            <form action="/join_gather" method="POST">
+                                <input type="hidden" name="gather_id" value="{{ Gather.id }}">
+                                <button type="submit" class="btn btn-success">Join Gather</button>
+                            </form>
+                        {% else %}
+                            <form action="/leave_gather" method="POST">
+                                <input type="hidden" name="gather_id" value="{{ Gather.id }}">
+                                <button type="submit" class="btn btn-danger">Leave Gather</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-        </div>
+
+            {% if loop.index % 3 == 0 or loop.last %}  <!-- Close the row for every third gather or the last gather -->
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        <script>
+            window.onload = function () {
+                document.getElementById('showGathersButton').click();
+            };
+        </script>
+
     </div>
-    {% endfor %}
 
     <script>
         window.onload = function () {
-            document.getElementById('showGathersButton').click();
+            fetch('/anzeigen')
+                .then(response => response.text())
+                .then(html => {
+                    document.body.innerHTML = html;
+                })
+                .catch(error => console.error('Error:', error));
         };
     </script>
 
-</div>
+
 
 </body>
 </html>

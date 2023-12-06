@@ -29,3 +29,13 @@ def creategather():
 @views.route('/gather_find', methods=['GET', 'POST'])
 def gather_find():
     return render_template("gather_find.html",user=current_user)
+
+# Renders the contact page
+@views.route('/contact', methods=['GET', 'POST'])
+def contact():
+    return render_template("contact.html")
+
+# Renders the about us page
+@views.route('/about_us', methods=['GET', 'POST'])
+def about_us():
+    return render_template("about_us.html")
