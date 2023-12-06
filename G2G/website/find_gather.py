@@ -12,13 +12,6 @@ def start_page():
     Gathers = Gather.query.order_by(Gather.id).all()
     return render_template('gather_find.html', Gathers=Gathers)
 
-@find_gather.route("/gather_find", methods=['GET', 'POST'])
-def start_pageTEST():
-
-    Gathers = Gather.query.order_by(Gather.id).all()
-    return render_template('gather_find.html', Gathers=Gathers)
-
-
 #joining a gather
 @find_gather.route("/join_gather", methods=['POST'])
 def join_gather():
@@ -35,6 +28,7 @@ def join_gather():
     Gathers = Gather.query.order_by(Gather.id).all()
     return render_template('gather_find.html', Gathers=Gathers)
 
+#leaving a gather
 @find_gather.route("/leave_gather", methods=['POST'])
 def leave_gather():
 

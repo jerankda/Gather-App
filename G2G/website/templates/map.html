@@ -46,52 +46,49 @@
     <a href="/explore" class="btn btn-primary back-button">&#8592;</a>
 
     <div id="map"></div>
- 
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
     <script>
         var mymap;
-   
-   
+
         function fetchMarkers() {
-            $.get('/get_markers', function(data) {
-                data.forEach(function(marker) {
-                    L.marker([marker.lat, marker.lng]).addTo(mymap).bindPopup(marker.name);
+            $.get('/get_markers', function (data) {
+                data.forEach(function (marker) {
+                    L.marker([marker.lat, marker.lng]).addTo(mymap).bindPopup('test');
                 });
             });
         }
-   
-        function addMarkerToDatabase(name, latlng) {
+
+        function addMarkerToDatabase(latlng) {
             $.ajax({
                 url: '/add_marker',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({ name: name, lat: latlng.lat, lng: latlng.lng }),
-                success: function(response) {
+                data: JSON.stringify({ lat: latlng.lat, lng: latlng.lng }),
+                success: function (response) {
                     console.log(response.message);
                 }
             });
         }
-   
+
         document.addEventListener("DOMContentLoaded", function () {
             mymap = L.map('map').setView([51.505, -0.09], 13);
-   
+
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(mymap);
-   
+
             fetchMarkers();
-   
+
             mymap.on('click', function (e) {
                 var coordinates = e.latlng;
-   
-                var name = prompt("Wie soll dein Gather heißen? ^^");
-                var desciption = prompt("Schreib deinen Freunden eine kurze Beschreibung deines Gathers :D");
-                if (name) {
-                    L.marker(coordinates).addTo(mymap).bindPopup(name);
-                    addMarkerToDatabase(name, coordinates);
-                }
+                L.marker(coordinates).addTo(mymap).bindPopup('TEST!');
+                addMarkerToDatabase(coordinates);
             });
         });
     </script>
- 
+
 </body>
 </html>

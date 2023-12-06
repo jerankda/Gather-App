@@ -25,5 +25,5 @@ def create_gather():
                         new_gather = Gather(name=name,description = description, location = location, user_id = currentUser, Host = Host)
                         db.session.add(new_gather)
                         db.session.commit()
-                        return render_template("gather_find.html")    # !!FÜR findGather.html AUSTAUSCHEN !!
+                        return render_template("gather_find.html")
                 return render_template("creategather.html")                
