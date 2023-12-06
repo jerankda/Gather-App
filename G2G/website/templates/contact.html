@@ -1,24 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-Ben Strich - strichben@gmail.com
-Daniel Jeranko - daniel@skittle.cc
-Maxim Tjan - maxim@skittle.cc 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap">
     <style>
-            .back-button {
-                position: absolute;
-                top: 10px;
-                left: 50px;
-                color: white;
-                background: rgba(0, 0, 255, 0.5); /* Semi-transparent blue background */
-                border: none;
-                padding: 10px;
-                border-radius: 5px;
-                z-index: 400;
-            }
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .wave-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #ee52d4, #c23ce7, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .content-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.7);
+            transition: 0.3s;
+            border-radius: 10px; /* Rounded corners */
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
+            transform: scale(1.05); 
+        }
+
+        .card-body {
+            font-family: 'Arial', sans-serif;
+        }
+
+        .card-title {
+            color: #727272;
+        }
+
+        .glowing-text {
+            color: white; /* White text */
+            text-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white, 0 0 40px white; /* Glowing effect */
+            font-family: 'Quicksand', sans-serif; /* Quicksand font */
+        }
     </style>
 </head>
-<body>
-    <a href="/" class="btn btn-primary back-button">&#8592;</a>
+<body>  
+    <div class="wave-background"></div>
+    <div class="container mt-5 content-container">
+        <h2 class="mb-4 glowing-text">Contact Us</h2>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Ben Strich</h5>
+                        <p class="card-text">strichben@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Daniel Jeranko</h5>
+                        <p class="card-text">daniel@skittle.cc</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Maxim Tjan</h5>
+                        <p class="card-text">maxim@skittle.cc</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
