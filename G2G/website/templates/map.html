@@ -61,32 +61,14 @@
             });
         }
 
-        function addMarkerToDatabase(latlng) {
-            $.ajax({
-                url: '/add_marker',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ lat: latlng.lat, lng: latlng.lng }),
-                success: function (response) {
-                    console.log(response.message);
-                }
-            });
-        }
-
         document.addEventListener("DOMContentLoaded", function () {
-            mymap = L.map('map').setView([51.505, -0.09], 13);
+            mymap = L.map('map').setView([52.4227, 10.7865], 13);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(mymap);
 
             fetchMarkers();
-
-            mymap.on('click', function (e) {
-                var coordinates = e.latlng;
-                L.marker(coordinates).addTo(mymap).bindPopup('TEST!');
-                addMarkerToDatabase(coordinates);
-            });
         });
     </script>
 
