@@ -17,6 +17,7 @@ def explore():
 
 # Renders map template
 @views.route('/map', methods=['GET', 'POST'])
+@login_required
 def map():
     return render_template("map.html",user=current_user)
 
@@ -27,6 +28,7 @@ def creategather():
 
 # Renders the gather finding page
 @views.route('/gather_find', methods=['GET', 'POST'])
+@login_required
 def gather_find():
     return render_template("gather_find.html",user=current_user)
 
@@ -39,3 +41,8 @@ def contact():
 @views.route('/about_us', methods=['GET', 'POST'])
 def about_us():
     return render_template("about_us.html")
+
+@views.route('/manageAccount', methods=['GET', 'POST'])
+@login_required
+def manageAccount():
+    return render_template("manageAccount.html")
