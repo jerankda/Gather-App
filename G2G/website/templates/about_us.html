@@ -1,40 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap">
+    <style>
+        #backButton {
+            background-color: rgba(128, 128, 128, 0.3); /* Gray with 50% transparency */
+            border-color: rgba(255, 255, 255, 0); /* Gray border with 50% transparency */
+            color: white; /* White text color */
+        }
 
-🚗 Welcome to Our World of Innovation!
+        #backButton:hover {
+            background-color: rgba(126, 126, 126, 0.3); /* Slightly less transparent on hover */
+            border-color: rgba(126, 126, 126, 0.3);
+        }
 
-Greetings from our small but passionate team of three IT students at Volkswagen in the heart of Germany! 🇩🇪 Embarking on this exhilarating journey, we proudly present our very first project for VW.
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
 
-Who We Are:
-We are a trio of IT enthusiasts, fueled by curiosity and driven by a shared love for technology. Nestled within the dynamic environment of Volkswagen, we bring a fresh perspective to the digital landscape.
+        .wave-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #ee52d4, #c23ce7, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            z-index: -1;
+        }
 
-Our Story:
-Picture this – three individuals, each with a unique set of skills, united by a common goal: to push the boundaries of innovation. As students at the forefront of technology, we have joined forces to make our mark in the automotive world.
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-Our Debut Project:
-Here, within the confines of Volkswagen, we are crafting our maiden voyage into the world of projects. This endeavor is not just a collaboration; it's a testament to our dedication, resilience, and the boundless possibilities that lie ahead.
+        .content-container {
+            position: relative;
+            z-index: 1;
+        }
 
-Join us on this thrilling expedition as we navigate through the digital realm, leaving our imprint on the legacy of Volkswagen. Together, let's redefine what's possible!
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.7);
+            transition: 0.3s;
+            border-radius: 20px; /* Rounded corners */
+        }
 
-Rev your engines and join us on this ride of innovation!
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
+            transform: scale(1.05); 
+        }
 
+        .card-body {
+            font-family: 'Arial', sans-serif;
+        }
 
- <style>
-    .back-button {
-        position: absolute;
-        top: 10px;
-        left: 50px;
-        color: white;
-        background: rgba(0, 0, 255, 0.5); /* Semi-transparent blue background */
-        border: none;
-        padding: 10px;
-        border-radius: 5px;
-        z-index: 400;
-    }
-</style>
+        .card-title {
+            color: #727272;
+        }
+
+        .glowing-text {
+            color: white; /* White text */
+            text-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white, 0 0 40px white; /* Glowing effect */
+            font-family: 'Quicksand', sans-serif; /* Quicksand font */
+        }
+
+        body {
+            overflow: hidden; /* Hide scrollbars */
+        }
+    </style>
 </head>
-<body>
-    <a href="/" class="btn btn-primary back-button">&#8592;</a>
+<body>  
+
+    <div class="wave-background"></div>
+    <div class="container mt-5 content-container">
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="glowing-text">🚗 Welcome to Our World of Innovation!</h2>
+                        <p class="card-text">
+                            Greetings from our small but passionate team of three IT students at Volkswagen in the heart of Germany! 🇩🇪 Embarking on this exhilarating journey, we proudly present our very first project for VW.
+                        </p>
+                        <h5 class="card-title">Who We Are:</h5>
+                        <p class="card-text">
+                            We are a trio of IT enthusiasts, fueled by curiosity and driven by a shared love for technology. Nestled within the dynamic environment of Volkswagen, we bring a fresh perspective to the digital landscape.
+                        </p>
+                        <h5 class="card-title">Our Story:</h5>
+                        <p class="card-text">
+                            Picture this – three individuals, each with a unique set of skills, united by a common goal: to push the boundaries of innovation. As students at the forefront of technology, we have joined forces to make our mark in the automotive world.
+                        </p>
+                        <h5 class="card-title">Our Debut Project:</h5>
+                        <p class="card-text">
+                            Here, within the confines of Volkswagen, we are crafting our maiden voyage into the world of projects. This endeavor is not just a collaboration; it's a testament to our dedication, resilience, and the boundless possibilities that lie ahead.
+                        </p>
+                        <p class="card-text">
+                            Join us on this thrilling expedition as we navigate through the digital realm, leaving our imprint on the legacy of Volkswagen. Together, let's redefine what's possible!
+                        </p>
+                        <p class="card-text">
+                            Rev your engines and join us on this ride of innovation!
+                        </p>
+                    </div>
+                </div>
+                <!-- Back Button Below the Card -->
+                <div class="text-center mt-5">
+                    <a id="backButton" href="your-back-link-here" class="btn">Go Back</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 </body>
 </html>
