@@ -268,7 +268,7 @@
             
             mymap.on('click', function (e) {
                 var coordinates = e.latlng;
-                L.marker(coordinates).addTo(mymap).bindPopup(gather_test);
+                L.marker(coordinates).addTo(mymap).bindPopup(gathername);
                 addMarkerToDatabase(coordinates);
             });
         });
