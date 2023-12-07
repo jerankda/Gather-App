@@ -76,9 +76,9 @@ def changePassword():
             user.password = generate_password_hash(new_password)
             db.session.commit()
             flash('Password updated successfully!', category='success')
-            return redirect(url_for('views.explore'))
-
-    return render_template("change_password.html", user=current_user)
+            return redirect(url_for('views.manageAccount'))
+ 
+    return render_template("manageAccount.html", user=current_user)
 
 
 @auth.route('/logout')
