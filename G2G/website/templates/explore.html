@@ -134,16 +134,17 @@
             height: auto;
         }
     </style>
-    <title>Your Website Title</title>
+    <title>Gather</title>
 </head>
 <body>
     <header>
         <h1>Welcome to Gather {{ current_user.email }}!</h1>
         
         <!-- Logout button in the header -->
-        <a href="/" class="logout-button">
+        <a href="{{ url_for('auth.logout') }}" class="logout-button">
             <img src="static/assets/logout.png" alt="Logout">
         </a>
+        
     </header>
 
     <div class="section" id="section1">
