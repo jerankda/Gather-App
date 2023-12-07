@@ -7,6 +7,18 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap">
     <style>
+
+        #backButton {
+            background-color: rgba(128, 128, 128, 0.3); /* Gray with 50% transparency */
+            border-color: rgba(255, 255, 255, 0); /* Gray border with 50% transparency */
+            color: white; /* White text color */
+        }
+
+        #backButton:hover {
+            background-color: rgba(126, 126, 126, 0.3); /* Slightly less transparent on hover */
+            border-color: rgba(126, 126, 126, 0.3);
+        }
+
         body, html {
             height: 100%;
             margin: 0;
@@ -38,7 +50,7 @@
         .card {
             box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.7);
             transition: 0.3s;
-            border-radius: 10px; /* Rounded corners */
+            border-radius: 20px; /* Rounded corners */
         }
 
         .card:hover {
@@ -59,12 +71,21 @@
             text-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white, 0 0 40px white; /* Glowing effect */
             font-family: 'Quicksand', sans-serif; /* Quicksand font */
         }
+
+        body {
+            overflow: hidden; /* Hide scrollbars */
+        }
+
     </style>
 </head>
 <body>  
+    
     <div class="wave-background"></div>
     <div class="container mt-5 content-container">
-        <h2 class="mb-4 glowing-text">Contact Us</h2>
+        <div class="d-flex justify-content-between mb-4">
+            <h2 class="glowing-text">Contact Us</h2>
+            <a id="backButton" href="$$$$$$$$$" class="btn">Go Back</a>
+        </div>
         <div class="row">
             <div class="col-md-4 mb-3">
                 <div class="card">
@@ -96,5 +117,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 </body>
 </html>
