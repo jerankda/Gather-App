@@ -21,9 +21,9 @@
             text-align: center;
             padding: 5px 0;
             z-index: 10;
-            display: flex; /* Flexbox to align items */
-            align-items: center; /* Align items vertically */
-            justify-content: center; /* Center items horizontally */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .section {
@@ -103,35 +103,25 @@
             }
         }
 
-        .back-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(162, 0, 255, 0.0); /* Semi-transparent blue background */
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            z-index: 400;
-            cursor: pointer; /* Add cursor pointer to indicate it's clickable */
-        }
-
-        .back-button img {
-            width: 30px; /* Example size, adjust as needed */
-            height: auto;
-        }
-
-        /* Add styles for the logout button */
-        .logout-button {
+        /* Styles for the settings and logout buttons */
+        .settings-button, .logout-button {
             position: absolute;
             top: 50%; /* Vertically align to the middle of the header */
-            right: 20px; /* Adjust the right distance as needed */
             transform: translateY(-50%);
             z-index: 400;
         }
 
-        .logout-button img {
+        .settings-button img, .logout-button img {
             width: 30px;
             height: auto;
+        }
+
+        .settings-button {
+            right: 60px; /* Adjust the right distance as needed */
+        }
+
+        .logout-button {
+            right: 20px; /* Adjust the right distance as needed */
         }
     </style>
     <title>Gather</title>
@@ -140,11 +130,15 @@
     <header>
         <h1>Welcome to Gather {{ current_user.email }}!</h1>
         
-        <!-- Logout button in the header -->
+        <!-- Settings button -->
+        <a href="settings.html" class="settings-button">
+            <img src="static/assets/settings.png" alt="Settings">
+        </a>
+
+        <!-- Logout button -->
         <a href="{{ url_for('auth.logout') }}" class="logout-button">
             <img src="static/assets/logout.png" alt="Logout">
         </a>
-        
     </header>
 
     <div class="section" id="section1">
