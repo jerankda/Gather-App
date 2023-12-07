@@ -52,6 +52,35 @@ def sign_up():
             return redirect(url_for('views.explore'))
     return render_template("sign_up.html", user=current_user)
 
+
+@auth.route('/change-password', methods=['GET', 'POST'])
+@login_required
+def changePassword():
+    if request.method == 'POST':
+        old_password = request.form.get('oldPassword')
+        new_password = request.form.get('newPassword')
+        password_confirm = request.form.get('passwordConfirm')
+
+        # Retrieve the current user
+        user = User.query.get(current_user.id)
+
+        # Check if the old password matches the user's password
+        if not check_password_hash(user.password, old_password):
+            flash('Incorrect old password.', category='error')
+        elif len(new_password) < 1:
+            flash('Please enter a new password.', category='error')
+        elif new_password != password_confirm:
+            flash('Passwords don\'t match.', category='error')
+        else:
+            # Update the user's password with the new one
+            user.password = generate_password_hash(new_password)
+            db.session.commit()
+            flash('Password updated successfully!', category='success')
+            return redirect(url_for('views.explore'))
+
+    return render_template("change_password.html", user=current_user)
+
+
 @auth.route('/logout')
 @login_required
 def logout():
