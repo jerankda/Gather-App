@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>register</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(rgb(180, 82, 1), rgb(174, 0, 255));
+            color: white;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .login-form {
+            background-color: rgba(151, 151, 151, 0.326); /* Semi-transparent white background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+            width: 300px; /* Set a specific width for better layout */
+        }
+
+        .ml2 {
+            font-weight: 900;
+            font-size: 3.5em;
+        }
+
+        .ml2 .letter {
+            display: inline-block;
+            line-height: 1em;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            background: rgba(0, 0, 255, 0.5); /* Semi-transparent blue background */
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/" class="btn btn-primary back-button">&#8592;</a>
+    <div class="flash-container" style="position: relative; top: -10px;">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'error' %}
+                        <div class="alert alert-danger alter-dismissible fade show" role="alert">
+                            {% if 'password' in message.lower() %}
+                                {{ message|replace('password', 'Passwords') }}
+                            {% else %}
+                                {{ message }}
+                            {% endif %}
+                            <button type="button" class="close" data-dismiss="alert">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-success alter-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    <div class="login-container">
+        <div class="login-form">
+            <h1 class="ml2">Gather</h1>
+            <form method="POST" action="/change-password">
+                <div class="form-group">
+                    <input type="password" class="form-control" name="oldPassword" placeholder="Enter old password">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="newPassword" placeholder="Enter new Password">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="passwordConfirm" placeholder="Confirm new Password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Change Password</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Wrap every letter in a span
+            var textWrapper = document.querySelector('.ml2');
+            textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+            anime.timeline({ loop: false })
+                .add({
+                    targets: '.ml2 .letter',
+                    scale: [5, 1],
+                    opacity: [0, 1],
+                    translateZ: 0,
+                    easing: "easeOutExpo",
+                    duration: 950,
+                    delay: (el, i) => 70 * i
+                }).add({
+                    targets: '.ml2',
+                    opacity: 1,
+                    duration: 1000,
+                    easing: "easeOutExpo",
+                    delay: 1000
+                });
+        });
+
+        // JavaScript to set opacity to 1 after the page is loaded
+        document.body.style.opacity = "1";
+    </script>
+
+</body>
+
+</html>
