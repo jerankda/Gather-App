@@ -55,7 +55,7 @@
 
     <a href="/explore" class="btn btn-primary back-button">&#8592;</a>
     <header>
-        <h1>Find a Gather!</h1>
+        <h1>Which Gather do you want to edit?</h1>
     </header>
 
     <div class="container">
@@ -71,10 +71,8 @@
                             <b>{{ Gather.name }}:</b>
                             {{ Gather.description }}
                             <p>Location: {{ Gather.location }}</p>
-                            <p>Host: {{ Gather.Host }}</p>
-                            <p>Guests:</p>
                             
-                            <form action="" method="POST">
+                            <form action="/editGather" method="POST">
                                 <input type="hidden" name="gather_id" value="{{ Gather.id }}">
                                 <button type="submit" class="btn btn-success">Edit Gather</button>
                             </form>
