@@ -86,3 +86,8 @@ def changePassword():
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
+
+@auth.route('/manageAccount', methods=['GET', 'POST'])
+@login_required
+def manageAccount():
+    return render_template("manageAccount.html")

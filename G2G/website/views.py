@@ -42,11 +42,6 @@ def contact():
 def about_us():
     return render_template("about_us.html")
 
-@views.route('/manageAccount', methods=['GET', 'POST'])
-@login_required
-def manageAccount():
-    return render_template("manageAccount.html")
-
 @views.route('/manageGather', methods=['GET', 'POST'])
 @login_required
 def manageGather():
