@@ -12,7 +12,7 @@ def create_app():
     app = Flask(__name__)
 
     # Configuration settings
-    app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
+    app.config['SECRET_KEY'] = 'napusi se kurca'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
 
@@ -20,11 +20,11 @@ def create_app():
     from .views import views
     from .auth import auth
     from .gather import gather
-    from . map_marker import map_marker
+    
+    # Registering blueprints with the app
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(gather,url_prefix='/')
-    app.register_blueprint(map_marker, url_prefix='/')
     # Import User model and create database tables
     from .models import User
     with app.app_context():

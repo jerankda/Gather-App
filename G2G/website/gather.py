@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request , flash 
+from flask import Blueprint, render_template, request , flash , jsonify 
 from . import db
 from .models import Gather, User, Marker, user_gather_association
 from flask_login import current_user
@@ -85,3 +85,9 @@ def leave_gather():
     Gathers = Gather.query.order_by(Gather.id).all()
     return render_template('gather_find.html', Gathers=Gathers)
 
+# Giving the map the location and name of all already set pins
+@gather.route('/get_markers')
+def get_markers():
+    markers = Marker.query.all()
+    markers_data = [{'lat': marker.lat, 'lng': marker.lng, 'name': marker.gather.name} for marker in markers]
+    return jsonify(markers_data)
