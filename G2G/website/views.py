@@ -51,3 +51,9 @@ def manageAccount():
 @login_required
 def manageGather():
     return render_template("manageGather.html")
+
+@views.route('/editGather', methods=['GET', 'POST'])
+@login_required
+def editGather():
+    return render_template("editGather.html")
+
