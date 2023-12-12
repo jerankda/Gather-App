@@ -72,13 +72,10 @@
                         <b>{{ Gather.name }}:</b>
                         {{ Gather.description }}
                         <p>Location: {{ Gather.location }}</p>
+                        <p>description: {{ Gather.description }}</p>
                         <p>Host: {{ Gather.Host }}</p>
-                        <p>Guests:</p>
-                        <ul>
-                            {% for user in Gather.users %}
-                                <li>{{ user.email }}</li>
-                            {% endfor %}
-                        </ul>
+                        
+                        
                         {% if current_user not in Gather.users %}
                             <form action="/join_gather" method="POST">
                                 <input type="hidden" name="gather_id" value="{{ Gather.id }}">
