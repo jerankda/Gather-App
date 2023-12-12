@@ -92,9 +92,9 @@
             width: 100%; /* Map takes full width of the container */
         }
 
-        @media screen and (max-width: 1920px) {
+        @media screen and (max-width: 1950px) {
             #map {
-                height: 220px;
+                height: 400px;
             }
         }
 
@@ -119,18 +119,26 @@
 
     <div class="flex-container">
         <div class="form-container">
-            <form action="/create" method="POST">
+            <form action="/create"method="POST">
                 <div class="form-group">
                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter the name">
-                    <input type="hidden" id="gatherName" name="gatherName">
+                    <script>
+                        var gatherName;
+                        document.getElementById("name").addEventListener("input", function() {
+                          gatherName = document.getElementById("name").value;
+                          console.log("User input: " + userInput);
+                        });
+                    </script>
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" id="location" name="location" placeholder="Enter the location">
                 </div>
                 <div class="form-group">
-                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter your description"></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="3"
+                        placeholder="Enter your description"></textarea>
+                        After filling out the form, set a pin, then submit
                 </div>
-                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                <button  type="submit" class="btn btn-primary btn-block">Submit</button>
             </form>
         </div>
 
@@ -175,30 +183,37 @@
         }
     </script>
 
-    <script>
-        var mymap;
-        document.addEventListener("DOMContentLoaded", function () {
-            mymap = L.map('map').setView([52.4227, 10.7865], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap contributors'
-            }).addTo(mymap);
-            mymap.on('click', function (e) {
-                var coordinates = e.latlng;
-                L.marker(coordinates).addTo(mymap).bindPopup('gatherName');
-                addMarkerToDatabase(coordinates);
-            });
+<script>
+    var mymap;
+
+    function addMarkerToDatabase(latlng, name) {
+        $.ajax({
+            url: '/add_marker',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ lat: latlng.lat, lng: latlng.lng, name: name }),
+            success: function (response) {
+                console.log(response.message);
+            }
         });
-        function addMarkerToDatabase(latlng) {
-            $.ajax({
-                url: '/add_marker',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ lat: latlng.lat, lng: latlng.lng }),
-                success: function (response) {
-                    console.log(response.message);
-                }
-            });
-        }
-    </script>
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        mymap = L.map('map').setView([52.4227, 10.7865], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(mymap);
+        
+        mymap.on('click', function (e) {
+            var coordinates = e.latlng;
+            if (gatherName !== null && gatherName.trim() !== "") {
+                L.marker(coordinates).addTo(mymap).bindPopup(gatherName);
+                addMarkerToDatabase(coordinates, gatherName);
+            }
+            
+        });
+    });
+</script>
 </body>
 </html>
