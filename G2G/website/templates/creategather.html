@@ -126,7 +126,6 @@
                         var gatherName;
                         document.getElementById("name").addEventListener("input", function() {
                           gatherName = document.getElementById("name").value;
-                          console.log("User input: " + userInput);
                         });
                     </script>
                 </div>
@@ -136,6 +135,8 @@
                 <div class="form-group">
                     <textarea class="form-control" id="description" name="description" rows="3"
                         placeholder="Enter your description"></textarea>
+                        <input type="hidden" id="latitude" name="latitude">
+                        <input type="hidden" id="longitude" name="longitude">
                         After filling out the form, set a pin, then submit
                 </div>
                 <button  type="submit" class="btn btn-primary btn-block">Submit</button>
@@ -186,18 +187,6 @@
 <script>
     var mymap;
 
-    function addMarkerToDatabase(latlng, name) {
-        $.ajax({
-            url: '/add_marker',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ lat: latlng.lat, lng: latlng.lng, name: name }),
-            success: function (response) {
-                console.log(response.message);
-            }
-        });
-    }
-
     document.addEventListener("DOMContentLoaded", function () {
         mymap = L.map('map').setView([52.4227, 10.7865], 13);
 
@@ -207,10 +196,10 @@
         
         mymap.on('click', function (e) {
             var coordinates = e.latlng;
-            if (gatherName !== null && gatherName.trim() !== "") {
-                L.marker(coordinates).addTo(mymap).bindPopup(gatherName);
-                addMarkerToDatabase(coordinates, gatherName);
-            }
+            L.marker(coordinates).addTo(mymap)
+            
+            document.getElementById("latitude").value = coordinates.lat;
+            document.getElementById("longitude").value = coordinates.lng;
             
         });
     });
