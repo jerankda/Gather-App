@@ -143,9 +143,9 @@
     <header>
         <h1>Welcome to Gather {{ current_user.email }}!</h1>
         
-        <!-- Settings button -->
+        <!-- Manage Account button -->
         <a href="/manageAccount" class="settings-button">
-            <img src="static/assets/settings.png" alt="Settings">
+            <img src="static/assets/settings.png" alt="manage Account">
         </a>
 
         <!-- Logout button -->
@@ -153,7 +153,7 @@
             <img src="static/assets/logout.png" alt="Logout">
         </a>
 
-        <!-- Manage button -->
+        <!-- Manage Gather button -->
         <a href="{{ url_for('views.manageGather') }}" class="manage-button">
             <img src="static/assets/manage.png" alt="Manage">
         </a>
