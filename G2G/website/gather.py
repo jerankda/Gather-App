@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, request , flash , jsonify 
+from flask import Blueprint, render_template, request , flash , jsonify , redirect, url_for
 from . import db
 from .models import Gather, User, Marker, user_gather_association
-from flask_login import current_user
+from flask_login import current_user, login_required
 
 gather = Blueprint('gather', __name__)
 
@@ -91,3 +91,30 @@ def get_markers():
     markers = Marker.query.all()
     markers_data = [{'lat': marker.lat, 'lng': marker.lng, 'name': marker.gather.name} for marker in markers]
     return jsonify(markers_data)
+    
+@gather.route('/editGather', methods=['GET', 'POST'])
+@login_required
+def editGather():
+    if request.method == 'POST': 
+        gather_id = request.form['gather_id']
+        gather = Gather.query.get(gather_id)
+        return render_template("editGather.html",Gather=gather)
+    
+@gather.route('/saveChanges',methods=['GET','POST'])
+@login_required
+def saveChanges():
+      if request.method == 'POST':
+        new_Name = request.form.get('name')
+        new_location = request.form.get('location')
+        new_description = request.form.get('description')
+        gather_id = request.form['gather_id']
+        Gather = Gather.query.get(gather_id)
+
+            # Update the new Entries
+        Gather.name = new_Name
+        Gather.location = new_location
+        Gather.description = new_description
+
+        db.session.commit()
+        flash('Changes Saved!', category='success')
+        return redirect(url_for('gather.editGather'))
