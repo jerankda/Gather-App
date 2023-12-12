@@ -11,8 +11,9 @@ def add_marker():
         data = request.json
         lat = data['lat']
         lng = data['lng']
+        name = data['name']
 
-        new_marker = Marker(lat=lat, lng=lng)
+        new_marker = Marker(lat=lat, lng=lng, name = name)
         db.session.add(new_marker)
         db.session.commit()
 
@@ -22,6 +23,6 @@ def add_marker():
 @map_marker.route('/get_markers')
 def get_markers():
     markers = Marker.query.all()
-    markers_data = [{'lat': marker.lat, 'lng': marker.lng} for marker in markers]
+    markers_data = [{'lat': marker.lat, 'lng': marker.lng, 'name': marker.name} for marker in markers]
     return jsonify(markers_data)
 
