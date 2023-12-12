@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap">
     <meta charset="UTF-8">
@@ -9,11 +8,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         crossorigin="anonymous">
-
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    
+
     <style>
         body {
             margin: 0;
@@ -22,7 +20,7 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            overflow: hidden; /* Prevent scrolling */
+            overflow: hidden;
             position: relative;
         }
 
@@ -33,63 +31,71 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Background animation */
             background: linear-gradient(rgb(232, 4, 253), rgb(4, 31, 210), rgb(108, 19, 120)),
                 linear-gradient(rgb(27, 3, 71), rgb(4, 31, 210), rgb(87, 6, 62));
             z-index: -6;
-            opacity: 0.7; /* Adjust opacity as needed */
-            animation: waveAnimation 5s linear infinite; /* Faster and linear animation */
+            opacity: 0.7;
+            animation: waveAnimation 5s linear infinite;
         }
 
         @keyframes waveAnimation {
-            0% {
-                transform: scaleY(1);
-            }
-            50% {
-                transform: scaleY(1.8);
-            }
-            100% {
-                transform: scaleY(1);
-            }
+            0% { transform: scaleY(1); }
+            50% { transform: scaleY(1.8); }
+            100% { transform: scaleY(1); }
         }
 
         .header-container {
             text-align: center;
             padding: 20px;
-            font-family: 'Quicksand', sans-serif; /* Use the Quicksand font */
+            font-family: 'Quicksand', sans-serif;
         }
-        
+
         .header-container h1 {
             font-size: 4em;
             color: white;
             margin: 0;
+            height: 1.2em;
+            overflow: hidden;
         }
+
+        .flex-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2%;
+        }
+
+        .form-container {
+             width: 30%; /* Reduced width */
+              padding: 20px;
+              background-color: rgba(43, 43, 43, 0.264);
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+              border-radius: 10px;
+              margin-bottom: 20px;
+              margin-left: auto; /* Centering the form */
+              margin-right: auto; /* Centering the form */
+         }
         
-
-        .console-underscore {
-            display: inline-block;
-            position: relative;
-            top: -0.14em;
-            left: 10px;
-        }
-
-        /* Custom styling for the form */
-        .container {
+        
+         .map-container {
+            width: 80%; /* Set a fixed width */
+            padding: 25px;
             background-color: rgba(43, 43, 43, 0.264);
-            border-radius: 10px;
-            padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
-            position: absolute;
-            top: 40%;
-            left: 30%;
-            transform: translate(-50%, -50%);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box; /* Include padding in the box's dimensions */
         }
-        
 
-        /* Add some spacing between form elements */
-        .form-group {
-            margin-bottom: 15px; /* Adjust the margin for tighter spacing */
+        #map {
+            height: 500px; /* Set a fixed height */
+            width: 100%; /* Map takes full width of the container */
+        }
+
+        @media screen and (max-width: 1920px) {
+            #map {
+                height: 220px;
+            }
         }
 
         .back-button {
@@ -97,103 +103,46 @@
             top: 10px;
             left: 10px;
             color: white;
-            background: rgba(0, 0, 255, 0.5); /* Semi-transparent blue background */
+            background: rgba(0, 0, 255, 0.5);
             border: none;
             padding: 10px;
             border-radius: 5px;
         }
-
-        #map {
-            height: 100vh;
-            z-index: 1;
-        }
-
-        .map-container {
-            border-radius: 10px;
-            padding: 50px;
-            width: 40%;
-            position: absolute;
-            top:25%;
-            left: 70%;
-            transform: translate(-50%, -50%);
-            height: 100px; /* Adjust the height as needed */
-            margin-bottom: 50%;
-        }
-
     </style>
 </head>
-
 <body>
     <a href="/explore" class="btn btn-primary back-button">&#8592;</a>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-            {% if category == 'error' %}
-                <div class="alert alert-danger alter-dismissible fade show" role="alert">
-                    {% if 'password' in message.lower() %}
-                        {{ message|replace('password', 'Passwords') }}
-                    {% else %}
-                        {{ message }}
-                    {% endif %}
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% else %}
-                <div class="alert alert-success alter-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-{% endwith %}
     <div class="header-container">
         <h1 id="text">Gather</h1>
-        <div class="console-underscore hidden" id="console">&#95;</div>
     </div>
 
-    <div class="container mt-5">
-        <form action="/create"method="POST">
-            <div class="form-group">
-                <input type="text" class="form-control" id="name" name="name" placeholder="Enter the name">
-                <input type="hidden" id="gatherName" name="gatherName">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="location" name="location" placeholder="Enter the location">
-            </div>
-            <div class="form-group">
-                <textarea class="form-control" id="description" name="description" rows="3"
-                    placeholder="Enter your description"></textarea>
-            </div>
-            <button  type="submit" class="btn btn-primary btn-block">Submit</button>
-        </form>
-    </div>
+    <div class="flex-container">
+        <div class="form-container">
+            <form action="/create" method="POST">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter the name">
+                    <input type="hidden" id="gatherName" name="gatherName">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="location" name="location" placeholder="Enter the location">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter your description"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            </form>
+        </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+    </div>
 
     <script>
-        // Paste your JavaScript code here
-        // ...
-
-        // function([string1, string2],target id,[color1,color2])    
         consoleText(['Create Gather', 'Find Friends', 'Make Memories'], 'text', ['tomato', 'rebeccapurple', 'lightblue']);
-
         function consoleText(words, id, color) {
             if (color === undefined) color = 'white';
-            var visible = true;
-            var con = document.getElementById('console');
             var letterCount = 1;
             var x = 1;
             var waiting = false;
@@ -223,30 +172,22 @@
                     letterCount += x;
                 }
             }, 120);
-            window.setInterval(function () {
-                if (visible === true) {
-                    con.style.opacity = 0; // hide the underscore
-                    visible = false;
-                } else {
-                    con.style.opacity = 0; // show the underscore
-                    visible = true;
-                }
-            }, 0);
         }
-        
     </script>
-
-
-<div class="map-container">
-    <div id="map"></div>
-</div>
-
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <script>
         var mymap;
-
+        document.addEventListener("DOMContentLoaded", function () {
+            mymap = L.map('map').setView([52.4227, 10.7865], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(mymap);
+            mymap.on('click', function (e) {
+                var coordinates = e.latlng;
+                L.marker(coordinates).addTo(mymap).bindPopup('gatherName');
+                addMarkerToDatabase(coordinates);
+            });
+        });
         function addMarkerToDatabase(latlng) {
             $.ajax({
                 url: '/add_marker',
@@ -258,21 +199,6 @@
                 }
             });
         }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            mymap = L.map('map').setView([52.4227, 10.7865], 13);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap contributors'
-            }).addTo(mymap);
-            
-            mymap.on('click', function (e) {
-                var coordinates = e.latlng;
-                L.marker(coordinates).addTo(mymap).bindPopup('gatherName');
-                addMarkerToDatabase(coordinates);
-            });
-        });
     </script>
 </body>
-
 </html>
