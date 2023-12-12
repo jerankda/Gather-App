@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
-from . import db
+from . import db 
 
 views = Blueprint('views', __name__)
 
@@ -47,8 +47,5 @@ def about_us():
 def manageGather():
     return render_template("manageGather.html")
 
-@views.route('/editGather', methods=['GET', 'POST'])
-@login_required
-def editGather():
-    return render_template("editGather.html")
+
 
