@@ -75,18 +75,10 @@
                         <p>description: {{ Gather.description }}</p>
                         <p>Host: {{ Gather.Host }}</p>
                         
-                        
-                        {% if current_user not in Gather.users %}
-                            <form action="/join_gather" method="POST">
+                            <form action="/extendedGather" method="POST">
                                 <input type="hidden" name="gather_id" value="{{ Gather.id }}">
-                                <button type="submit" class="btn btn-success">Join Gather</button>
+                                <button type="submit" class="btn btn-success">See More</button>
                             </form>
-                        {% else %}
-                            <form action="/leave_gather" method="POST">
-                                <input type="hidden" name="gather_id" value="{{ Gather.id }}">
-                                <button type="submit" class="btn btn-danger">Leave Gather</button>
-                            </form>
-                        {% endif %}
                     </div>
                 </div>
             </div>

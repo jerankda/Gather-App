@@ -129,3 +129,10 @@ def deleteGather():
         db.session.query(Gather).filter_by(id=gatherId).delete()
         db.session.commit()
         return render_template("manageGather.html")
+
+@gather.route('/extendedGather',methods=['GET','POST'])
+@login_required
+def extendedGather():
+    gather_id = request.form['gather_id']
+    gather = Gather.query.get(gather_id)
+    return render_template("extendedGather.html", Gather = gather)
