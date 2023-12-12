@@ -12,6 +12,13 @@ def start_page():
     Gathers = Gather.query.order_by(Gather.id).all()
     return render_template('gather_find.html', Gathers=Gathers)
 
+@find_gather.route("/showowngather", methods=['GET', 'POST'])
+def ownGather():
+    user_id = current_user.id
+    gathers = Gather.query.filter_by(user_id=user_id).order_by(Gather.id).all()
+    return render_template('manageGather.html', Gathers=gathers)
+
+
 #joining a gather
 @find_gather.route("/join_gather", methods=['POST'])
 def join_gather():
