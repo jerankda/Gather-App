@@ -160,7 +160,13 @@
         <form action="/create"method="POST">
             <div class="form-group">
                 <input type="text" class="form-control" id="name" name="name" placeholder="Enter the name">
-                <input type="hidden" id="gatherName" name="gatherName">
+                <script>
+                    var gatherName;
+                    document.getElementById("name").addEventListener("input", function() {
+                      gatherName = document.getElementById("name").value;
+                      console.log("User input: " + userInput);
+                    });
+                </script>
             </div>
             <div class="form-group">
                 <input type="text" class="form-control" id="location" name="location" placeholder="Enter the location">
@@ -173,6 +179,7 @@
         </form>
     </div>
 
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -184,8 +191,6 @@
         crossorigin="anonymous"></script>
 
     <script>
-        // Paste your JavaScript code here
-        // ...
 
         // function([string1, string2],target id,[color1,color2])    
         consoleText(['Create Gather', 'Find Friends', 'Make Memories'], 'text', ['tomato', 'rebeccapurple', 'lightblue']);
@@ -247,12 +252,12 @@
     <script>
         var mymap;
 
-        function addMarkerToDatabase(latlng) {
+        function addMarkerToDatabase(latlng, name) {
             $.ajax({
                 url: '/add_marker',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({ lat: latlng.lat, lng: latlng.lng }),
+                data: JSON.stringify({ lat: latlng.lat, lng: latlng.lng, name: name }),
                 success: function (response) {
                     console.log(response.message);
                 }
@@ -268,8 +273,11 @@
             
             mymap.on('click', function (e) {
                 var coordinates = e.latlng;
-                L.marker(coordinates).addTo(mymap).bindPopup('gatherName');
-                addMarkerToDatabase(coordinates);
+                if (gatherName !== null && gatherName.trim() !== "") {
+                    L.marker(coordinates).addTo(mymap).bindPopup(gatherName);
+                    addMarkerToDatabase(coordinates, gatherName);
+                }
+                
             });
         });
     </script>

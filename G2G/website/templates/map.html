@@ -56,7 +56,7 @@
         function fetchMarkers() {
             $.get('/get_markers', function (data) {
                 data.forEach(function (marker) {
-                    L.marker([marker.lat, marker.lng]).addTo(mymap).bindPopup('test');
+                    L.marker([marker.lat, marker.lng, marker.name]).addTo(mymap).bindPopup(marker.name+'TEST');
                 });
             });
         }
