@@ -123,6 +123,19 @@
         .logout-button {
             right: 20px; /* Adjust the right distance as needed */
         }
+
+        .manage-button {
+            position: absolute;
+            top: 50%; /* Vertically align to the middle of the header */
+            transform: translateY(-50%);
+            z-index: 400;
+            right: 100px; /* Adjust the right distance as needed */
+        }
+        
+        .manage-button img {
+            width: 30px;
+            height: auto;
+        }
     </style>
     <title>Gather</title>
 </head>
@@ -139,6 +152,13 @@
         <a href="{{ url_for('auth.logout') }}" class="logout-button">
             <img src="static/assets/logout.png" alt="Logout">
         </a>
+
+        <!-- Manage button -->
+        <a href="/manage" class="manage-button">
+            <img src="static/assets/manage.png" alt="Manage">
+        </a>
+
+        
     </header>
 
     <div class="section" id="section1">
