@@ -46,3 +46,8 @@ def about_us():
 @login_required
 def manageAccount():
     return render_template("manageAccount.html")
+
+@views.route('/manageGather', methods=['GET', 'POST'])
+@login_required
+def manageGather():
+    return render_template("manageGather.html")
