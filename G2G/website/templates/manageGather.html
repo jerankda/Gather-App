@@ -73,14 +73,10 @@
                             <p>Location: {{ Gather.location }}</p>
                             <p>Host: {{ Gather.Host }}</p>
                             <p>Guests:</p>
-                            <ul>
-                                {% for user in Gather.users %}
-                                    <li>{{ user.email }}</li>
-                                {% endfor %}
-                            </ul>
-                            <form action="/join_gather" method="POST">
+                            
+                            <form action="" method="POST">
                                 <input type="hidden" name="gather_id" value="{{ Gather.id }}">
-                                <button type="submit" class="btn btn-success">Join Gather</button>
+                                <button type="submit" class="btn btn-success">Edit Gather</button>
                             </form>
                         </div>
                     </div>
@@ -94,7 +90,7 @@
     </div>
     <script>
         window.onload = function () {
-            fetch('/showowngather')
+            fetch('/showowngather')   //function in find_gather.py
                 .then(response => response.text())
                 .then(html => {
                     document.body.innerHTML = html;
