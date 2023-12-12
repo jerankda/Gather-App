@@ -34,7 +34,7 @@
                             <label for="description" class="form-label">Description</label>
                             <input class="form-control" name="description"  rows="3" value="{{Gather.description}}" placeholder="Enter new Description"></input>
                         </div>
-                        <input type="hidden" name="gather_id" value="{{ Gather.id }}">
+                        <input type="hidden" name="gather_id" value="{{Gather.id}}">
                         <button type="submit" class="btn btn-primary">Save Changes</button>
                     </form>
                 </div>
@@ -54,9 +54,12 @@
             </div>
         </div>
     </div>
-    <div class="fixed-bottom text-center mb-3">
-        <button type="button" class="btn btn-danger">Delete Gather</button>
-    </div>
+    
+    <form action="/deleteGather" method="POST">
+        <button type="submit" class="btn btn-danger">delete Gather</button>
+        <input type="hidden" name="gather_id" value="{{Gather.id}}">
+
+    </form>
 </body>
 <style>
     .fixed-bottom.text-center {

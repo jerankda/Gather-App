@@ -95,10 +95,9 @@ def get_markers():
 @gather.route('/editGather', methods=['GET', 'POST'])
 @login_required
 def editGather():
-    if request.method == 'POST': 
-        gather_id = request.form['gather_id']
-        gather = Gather.query.get(gather_id)
-        return render_template("editGather.html",Gather=gather)
+    gather_id = request.form['gather_id']
+    gather = Gather.query.get(gather_id)
+    return render_template("editGather.html",Gather=gather)
     
 @gather.route('/saveChanges',methods=['GET','POST'])
 @login_required
@@ -108,13 +107,25 @@ def saveChanges():
         new_location = request.form.get('location')
         new_description = request.form.get('description')
         gather_id = request.form['gather_id']
-        Gather = Gather.query.get(gather_id)
 
-            # Update the new Entries
-        Gather.name = new_Name
-        Gather.location = new_location
-        Gather.description = new_description
+        gather = Gather.query.get(gather_id)
+        
+
+        # Update the new Entries
+        gather.name = new_Name
+        gather.location = new_location
+        gather.description = new_description
 
         db.session.commit()
-        flash('Changes Saved!', category='success')
-        return redirect(url_for('gather.editGather'))
+        return render_template("manageGather.html",Gather=gather)
+
+@gather.route('/deleteGather',methods=['GET','POST'])
+@login_required
+def deleteGather():
+      if request.method == 'POST':
+        gatherId = request.form['gather_id']
+        db.session.query(user_gather_association).filter_by(gather_id=gatherId).delete(all)
+        db.session.query(Marker).filter_by(gather_id=gatherId).delete()
+        db.session.query(Gather).filter_by(id=gatherId).delete()
+        db.session.commit()
+        return render_template("manageGather.html")
