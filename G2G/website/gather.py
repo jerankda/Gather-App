@@ -19,7 +19,8 @@ def create_gather():
 
                 print(longitude)
                 print(latitude)
-
+                if name:
+                     flash('Gather with this name already exsists', category='error')
                 if len(name) == 0:
                         flash('Please give your Gather a name.', category='error')
                 if len(location) == 0:
