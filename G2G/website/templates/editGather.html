@@ -54,17 +54,26 @@
             </div>
         </div>
     </div>
-    
+    <div class="bottom-buttons">  
     <form action="/deleteGather" method="POST">
         <button type="submit" class="btn btn-danger">delete Gather</button>
         <input type="hidden" name="gather_id" value="{{Gather.id}}">
-
+        
     </form>
+</div>
 </body>
 <style>
-    .fixed-bottom.text-center {
-        left: 50%;
-        transform: translateX(-50%);
-        }
+.fixed-bottom.text-center {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.bottom-buttons {
+    position: fixed;
+    left: 50%;
+    bottom: 10px; /* Adjust as needed */
+    transform: translateX(-50%);
+    text-align: center;
+}
 </style>
 </html>
