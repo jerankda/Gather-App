@@ -1,6 +1,7 @@
 from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
+from datetime import datetime
 
 #creating a association between gathers and users
 user_gather_association = db.Table(
@@ -22,6 +23,7 @@ class Gather(db.Model, UserMixin):
     name = db.Column(db.String(150))
     description = db.Column(db.String(1000))
     location = db.Column(db.String(1000))
+    createdAt = db.Column(db.DateTime(),default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     Host = db.Column(db.String(20))
     users = db.relationship('User', secondary=user_gather_association, back_populates='Gathers')
