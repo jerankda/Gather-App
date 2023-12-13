@@ -116,32 +116,41 @@
     <div class="header-container">
         <h1 id="text">Gather</h1>
     </div>
-
     <div class="flex-container">
         <div class="form-container">
-            <form action="/create"method="POST">
+            <form action="/create" method="POST">
                 <div class="form-group">
                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter the name">
+                    <!-- Existing script for gatherName -->
                     <script>
                         var gatherName;
                         document.getElementById("name").addEventListener("input", function() {
-                          gatherName = document.getElementById("name").value;
+                            gatherName = document.getElementById("name").value;
                         });
                     </script>
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" id="location" name="location" placeholder="Enter the location">
                 </div>
+                <!-- New input field for Date -->
+                <div class="form-group">
+                    <input type="date" class="form-control" id="date" name="date" placeholder="Select a date">
+                </div>
+                <!-- New input field for Time -->
+                <div class="form-group">
+                    <input type="time" class="form-control" id="time" name="time" placeholder="Select a time">
+                </div>
                 <div class="form-group">
                     <textarea class="form-control" id="description" name="description" rows="3"
                         placeholder="Enter your description"></textarea>
-                        <input type="hidden" id="latitude" name="latitude">
-                        <input type="hidden" id="longitude" name="longitude">
-                        After filling out the form, set a pin, then submit
+                    <input type="hidden" id="latitude" name="latitude">
+                    <input type="hidden" id="longitude" name="longitude">
+                    After filling out the form, set a pin, then submit
                 </div>
-                <button  type="submit" class="btn btn-primary btn-block">Submit</button>
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
             </form>
         </div>
+    </div>
 
         <div class="map-container">
             <div id="map"></div>
