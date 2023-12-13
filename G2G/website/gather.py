@@ -65,7 +65,6 @@ def join_gather():
     db.session.add(gather)
     db.session.commit()
 
-    Gathers = Gather.query.order_by(Gather.id).all()
     return render_template('extendedGather.html', Gather=gather)
 
 #leaving a gather
@@ -81,9 +80,23 @@ def leave_gather():
         gather.users.remove(user)
     
     db.session.commit()
-
-    Gathers = Gather.query.order_by(Gather.id).all()
     return render_template('extendedGather.html', Gather=gather)
+
+#kick User from Gather
+@gather.route("/kickUser", methods=['POST'])
+def kickUser():
+
+    gather_id = request.form['gather_id']
+    gather = Gather.query.get(gather_id)
+
+    user_id = request.form['user_id']
+    user = User.query.get(user_id)
+
+    if user in gather.users:
+        gather.users.remove(user)
+    
+    db.session.commit()
+    return render_template('editGather.html',Gather=gather)
 
 # Giving the map the location and name of all already set pins
 @gather.route('/get_markers')
