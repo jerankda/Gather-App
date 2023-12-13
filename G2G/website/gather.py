@@ -20,6 +20,10 @@ def create_gather():
         latitude = request.form.get('latitude')
         longitude = request.form.get('longitude')
 
+        if latitude or longitude == '':
+            latitude = 40
+            longitude = 127
+
         if len(name) == 0:
             flash('Please give your Gather a name.', category='error')
         elif len(location) == 0:
@@ -162,4 +166,13 @@ def deleteGather():
 def extendedGather():
     gather_id = request.form['gather_id']
     gather = Gather.query.get(gather_id)
-    return render_template("extendedGather.html", Gather = gather)
+    marker = Marker.query.filter_by(gather_id=gather_id).first()
+
+    if marker:
+        markerLat = marker.lat
+        markerLng = marker.lng
+
+        print(markerLat)
+        print(markerLng)
+        
+    return render_template("extendedGather.html", Gather = gather, markerLat=markerLat, markerLng=markerLng)

@@ -112,10 +112,15 @@
         </div>
     </div>
  
+    <input type="hidden" id="markerLat" value="{{markerLat}}">
+    <input type="hidden" id="markerLng" value="{{markerLng}}">
+
     <!-- Leaflet JS and Map Initialization Script -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         var mymap;
+
         function fetchMarkers() {
             $.get('/get_markers', function (data) {
                 data.forEach(function (marker) {
@@ -125,14 +130,19 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            mymap = L.map('map').setView([52.4227, 10.7865], 13);
+            var markerLat = document.getElementById('markerLat').value;
+            var markerLng = document.getElementById('markerLng').value;
 
+
+            test1 = parseFloat(markerLat);
+            test2 = parseFloat(markerLng);
+            mymap = L.map('map').setView([test1, test2], 13);
+            fetchMarkers();
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
-            }).addTo(mymap);
+            }).addTo(mymap); 
 
-            fetchMarkers();
         });
-    </script>
+</script>
 </body>
 </html>

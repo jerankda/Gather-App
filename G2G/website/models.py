@@ -35,8 +35,8 @@ class Gather(db.Model, UserMixin):
 #creating a Database for the map pins
 class Marker(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    lat = db.Column(db.Float)
-    lng = db.Column(db.Float)
+    lat = db.Column(db.Float, nullable=True) 
+    lng = db.Column(db.Float, nullable=True)
     gather_id = db.Column(db.Integer, db.ForeignKey('gather.id'))
     gather = db.relationship('Gather', back_populates='markers')
     
