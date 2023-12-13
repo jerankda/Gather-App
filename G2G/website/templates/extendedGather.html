@@ -108,18 +108,22 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         var mymap;
+        function fetchMarkers() {
+            $.get('/get_markers', function (data) {
+                data.forEach(function (marker) {
+                    L.marker([marker.lat, marker.lng, marker.name]).addTo(mymap).bindPopup(marker.name);
+                });
+            });
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
             mymap = L.map('map').setView([52.4227, 10.7865], 13);
+
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(mymap);
- 
-            mymap.on('click', function (e) {
-                var coordinates = e.latlng;
-                L.marker(coordinates).addTo(mymap);
-                document.getElementById("latitude").value = coordinates.lat;
-                document.getElementById("longitude").value = coordinates.lng;
-            });
+
+            fetchMarkers();
         });
     </script>
 </body>

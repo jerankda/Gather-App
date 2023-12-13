@@ -19,7 +19,7 @@ class User(db.Model, UserMixin):
 #creating a Database for the Gathers
 class Gather(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(150), unique = True)
+    name = db.Column(db.String(150))
     description = db.Column(db.String(1000))
     location = db.Column(db.String(1000))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
