@@ -120,14 +120,24 @@ def editGather():
 @gather.route('/saveChanges',methods=['GET','POST'])
 @login_required
 def saveChanges():
-      if request.method == 'POST':
+    if request.method == 'POST':
         new_Name = request.form.get('name')
         new_location = request.form.get('location')
         new_description = request.form.get('description')
+        new_Time_str = request.form.get('time')
+        new_Date_str = request.form.get('date')
         gather_id = request.form['gather_id']
 
         gather = Gather.query.get(gather_id)
-        
+
+        # Convert the date and time strings to date and time objects
+        if new_Date_str:
+            new_Date = datetime.strptime(new_Date_str, '%Y-%m-%d').date()
+            gather.Date = new_Date
+
+        if new_Time_str:
+            new_Time = datetime.strptime(new_Time_str, '%H:%M').time()
+            gather.Time = new_Time
 
         # Update the new Entries
         gather.name = new_Name
@@ -135,8 +145,7 @@ def saveChanges():
         gather.description = new_description
 
         db.session.commit()
-        return render_template("manageGather.html",Gather=gather)
-
+        return render_template("manageGather.html", Gather=gather)
 @gather.route('/deleteGather',methods=['GET','POST'])
 @login_required
 def deleteGather():
