@@ -19,7 +19,8 @@ def create_gather():
 
                 print(longitude)
                 print(latitude)
-                if name:
+                GatherName = Gather.query.filter_by(name=name).first()
+                if GatherName:
                      flash('Gather with this name already exsists', category='error')
                 if len(name) == 0:
                         flash('Please give your Gather a name.', category='error')
