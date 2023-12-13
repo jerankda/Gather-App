@@ -41,6 +41,7 @@
 
         }
 
+
         header {
             position: fixed;
             width: 100%;
@@ -67,22 +68,31 @@
             {% endif %}
 
             <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <b>{{ Gather.name }}:</b>
-                        {{ Gather.description }}
-                        <p>Location: {{ Gather.location }}</p>
-                        <p>description: {{ Gather.description }}</p>
-                        <p>Host: {{ Gather.Host }}</p>
-                        
-                            <form action="/extendedGather" method="POST">
-                                <input type="hidden" name="gather_id" value="{{ Gather.id }}">
-                                <button type="submit" class="btn btn-success">See More</button>
-                            </form>
+                <div class="gather-info-container" style="background-color: rgba(43, 43, 43, 0.264); padding: 20px; border-radius: 10px;">
+                    <div class="info-subcontainer">
+                        <h2>{{ Gather.name }}</h2>
+                    </div>
+                    <div class="info-subcontainer">
+                        <h6>Where?</h6>
+                        <p>{{ Gather.location }}</p>
+                    </div>
+                    <div class="info-subcontainer">
+                        <h6>When?</h6>
+                        <p>{{ Gather.Time.strftime('%H:%M') }} {{ Gather.Date.strftime('%d.%m.%y') }}</p>
+                    </div>
+            
+                    <!-- Flex container for button and created by info -->
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <form action="/extendedGather" method="POST">
+                            <input type="hidden" name="gather_id" value="{{ Gather.id }}">
+                            <button type="submit" class="btn btn-success">See More</button>
+                        </form>
+                        <div>
+                            <p>Created by {{ Gather.Host }} on <span class="msg-date">{{Gather.createdAt.strftime('%d.%m.%y')}}</span> </p>
+                        </div>
                     </div>
                 </div>
             </div>
-
             {% if loop.index % 3 == 0 or loop.last %}  <!-- Close the row for every third gather or the last gather -->
                 </div>
             {% endif %}
