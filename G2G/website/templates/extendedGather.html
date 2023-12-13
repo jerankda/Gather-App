@@ -69,6 +69,14 @@
                         <p>{{ Gather.location }}</p>
                     </div>
                     <div class="info-subcontainer">
+                        <h4>Time</h4>
+                        <p>{{ Gather.Time.strftime('%H:%M') }}</p>
+                        <div class="info-subcontainer">
+                            <h4>Date</h4>
+                            <p>{{ Gather.Date.strftime('%d.%m.%y') }}</p>
+                        </div>
+                    </div>
+                    <div class="info-subcontainer">
                         <h4>Description</h4>
                         <p>{{ Gather.description }}</p>
                     </div>
