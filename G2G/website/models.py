@@ -23,6 +23,8 @@ class Gather(db.Model, UserMixin):
     name = db.Column(db.String(150))
     description = db.Column(db.String(1000))
     location = db.Column(db.String(1000))
+    Date = db.Column(db.Date)
+    Time = db.Column(db.Time)
     createdAt = db.Column(db.DateTime(),default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     Host = db.Column(db.String(20))
