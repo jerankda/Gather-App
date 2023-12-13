@@ -3,11 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{Gather.name}} from {{Gather.Host}}</title>
+    <title>Edit Gather</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Add custom styles from creategather.html here -->
+ 
+    <!-- Styles for Map Container -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body {
+            background: linear-gradient(rgb(19, 2, 255), purple);
+            color: white;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+ 
+        .map-container {
+            padding: 20px;
+            background-color: rgba(43, 43, 43, 0.264);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            height: 100%;
+        }
+ 
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+ 
+        .bottom-buttons {
+            position: fixed;
+            left: 50%;
+            bottom: 10px;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+    </style>
 </head>
-<body style="background: linear-gradient(rgb(19, 2, 255), purple); color: white; background-repeat: no-repeat; background-attachment: fixed; background-size: cover;">
+<body>
     <nav class="navbar navbar-light">
         <div class="container">
             <a class="navbar-brand" href="/gather_find">
@@ -15,70 +47,78 @@
             </a>
         </div>
     </nav>
+   
     <div class="container my-5">
         <div class="row">
-            <!-- Left-aligned Form Section -->
-            <div class="container mt-1"> <!-- Changed my-5 to mt-2 for reduced top margin -->
-                <div class="row">
-                    <!-- Gather Information Section -->
-                    <div class="col-md-6">
-                        <div class="gather-info-container" style="background-color: rgba(43, 43, 43, 0.264); padding: 20px; border-radius: 10px;">
-                            <h2>Information</h2>
-                            <div class="info-subcontainer">
-                                <h4>Name</h4>
-                                <p>{{ Gather.name }}</p>
-                            </div>
-                            <div class="info-subcontainer">
-                                <h4>Location</h4>
-                                <p>{{ Gather.location }}</p>
-                            </div>
-                            <div class="info-subcontainer">
-                                <h4>Description</h4>
-                                <p>{{ Gather.description }}</p>
-                            </div>
-                        </div>
-                    </div>
+            <div class="col-md-4">
+                <div class="map-container">
+                    <div id="map"></div>
+                </div>
+            </div>
 
-            <!-- Right-aligned Guestlist Section -->
-            <div class="col-md-6">
-                <div class="guestlist-container" style="background-color: rgba(43, 43, 43, 0.264); padding: 15px; border-radius: 10px;">
+            <!-- Left-aligned Form Section -->
+            <div class="col-md-4">
+                <div class="gather-info-container" style="background-color: rgba(43, 43, 43, 0.264); padding: 20px; border-radius: 10px;">
+                    <h2>Information</h2>
+                    <div class="info-subcontainer">
+                        <h4>Name</h4>
+                        <p>{{ Gather.name }}</p>
+                    </div>
+                    <div class="info-subcontainer">
+                        <h4>Location</h4>
+                        <p>{{ Gather.location }}</p>
+                    </div>
+                    <div class="info-subcontainer">
+                        <h4>Description</h4>
+                        <p>{{ Gather.description }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="guestlist-container" style="padding: 15px; background-color: rgba(43, 43, 43, 0.264); border-radius: 10px;">
                     <h2>Guestlist</h2>
-                    {% for user in Gather.users %}
-                        <div class="guest-container" style="background-color: rgba(0, 0, 0, 0.1); margin-bottom: 10px; padding: 10px; border-radius: 5px;">
-                            <p>{{ user.email }}</p>
-                            <!-- Additional guest details here -->
-                        </div>
-                    {% endfor %}
+                    <div class="guest-container" style="background-color: rgba(0, 0, 0, 0.1); margin-bottom: 10px; padding: 10px; border-radius: 5px;">
+                        <p>guest1@example.com</p>
+                    </div>
+                    <div class="guest-container" style="background-color: rgba(0, 0, 0, 0.1); margin-bottom: 10px; padding: 10px; border-radius: 5px;">
+                        <p>guest2@example.com</p>
+                    </div>
+                    <!-- Additional guestlist items here -->
                 </div>
             </div>
         </div>
+ 
+        <!-- Bottom Buttons -->
+        <div class="bottom-buttons">
+            <form action="/join_gather" method="POST">
+                <input type="hidden" name="gather_id" value="12345">
+                <button type="submit" class="btn btn-success">Join Gather</button>
+            </form>
+            <form action="/leave_gather" method="POST">
+                <input type="hidden" name="gather_id" value="12345">
+                <button type="submit" class="btn btn-danger">Leave Gather</button>
+            </form>
+        </div>
     </div>
-    <div class="bottom-buttons">
-        {% if current_user not in Gather.users %}
-        <form action="/join_gather" method="POST">
-            <input type="hidden" name="gather_id" value="{{ Gather.id }}">
-            <button type="submit" class="btn btn-success">Join Gather</button>
-        </form>
-        {% else %}
-        <form action="/leave_gather" method="POST">
-            <input type="hidden" name="gather_id" value="{{ Gather.id }}">
-            <button type="submit" class="btn btn-danger">Leave Gather</button>
-        </form>
-        {% endif %}
-    </div>
+ 
+    <!-- Leaflet JS and Map Initialization Script -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var mymap;
+        document.addEventListener("DOMContentLoaded", function () {
+            mymap = L.map('map').setView([52.4227, 10.7865], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(mymap);
+ 
+            mymap.on('click', function (e) {
+                var coordinates = e.latlng;
+                L.marker(coordinates).addTo(mymap);
+                document.getElementById("latitude").value = coordinates.lat;
+                document.getElementById("longitude").value = coordinates.lng;
+            });
+        });
+    </script>
 </body>
-<style>
-.fixed-bottom.text-center {
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.bottom-buttons {
-    position: fixed;
-    left: 50%;
-    bottom: 10px; /* Adjust as needed */
-    transform: translateX(-50%);
-    text-align: center;
-}
-</style>
 </html>
