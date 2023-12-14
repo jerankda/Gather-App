@@ -137,9 +137,29 @@
                     L.marker([marker.lat, marker.lng, marker.name]).addTo(mymap).bindPopup(popupContent);
                     
                     button.addEventListener('click', function () {
-                    // Use the captured value of marker within the event listener
-                    alert('Button clicked for marker ' + marker.name);
-            }); 
+                        var gather_id = marker.id;
+
+                        // Using fetch to make a POST request to your Flask route
+                        fetch('/extendedGatherJav', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ gather_id: gather_id }),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Handle the response data if needed
+                            console.log(data);
+
+                            // Redirect to the new page after successful response
+                            window.location.href = '/render-extended-gather?gather_id=' + data.gather_id + '&markerLat=' + data.markerLat + '&markerLng=' + data.markerLng;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                    });
+
                     
                 });
             });
@@ -147,6 +167,7 @@
 
         document.addEventListener("DOMContentLoaded", function () {
             var markerLat = document.getElementById('markerLat').value;
+            var markerLng = document.getElementById('markerLng').value;
             var markerLng = document.getElementById('markerLng').value;
 
 

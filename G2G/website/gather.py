@@ -127,7 +127,7 @@ def kickUser():
 @gather.route('/get_markers')
 def get_markers():
     markers = Marker.query.all()
-    markers_data = [{'lat': marker.lat, 'lng': marker.lng, 'name': marker.gather.name} for marker in markers]
+    markers_data = [{'lat': marker.lat, 'lng': marker.lng, 'name': marker.gather.name, 'id': marker.gather.id } for marker in markers]
     return jsonify(markers_data)
     
 @gather.route('/editGather', methods=['GET', 'POST'])
@@ -194,3 +194,32 @@ def extendedGather():
     markerLng = marker.lng
 
     return render_template("extendedGather.html", Gather = gather, markerLat=markerLat, markerLng=markerLng)
+
+
+@gather.route('/extendedGatherJav', methods=['POST'])
+@login_required
+def extendedGatherJav():
+    data = request.get_json()
+    gather_id = data['gather_id']
+    gather = Gather.query.get(gather_id)
+    marker = Marker.query.filter_by(gather_id=gather_id).first()
+    markerLat = marker.lat
+    markerLng = marker.lng
+
+    print(gather_id)
+    print(markerLat)
+    print(markerLng)
+
+    # Return data for redirect in JSON format
+    return jsonify(gather_id=gather_id, markerLat=markerLat, markerLng=markerLng)
+
+@gather.route('/render-extended-gather', methods=['GET'])
+@login_required
+def render_extended_gather():
+    gather_id = request.args.get('gather_id')
+    markerLat = request.args.get('markerLat')
+    markerLng = request.args.get('markerLng')
+
+    gather = Gather.query.get(gather_id)
+
+    return render_template("extendedGather.html", Gather=gather, markerLat=markerLat, markerLng=markerLng)
