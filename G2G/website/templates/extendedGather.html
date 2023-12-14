@@ -19,17 +19,19 @@
  
         .map-container {
             padding: 20px;
+            padding-bottom: 60px; /* Increased bottom padding */
             background-color: rgba(43, 43, 43, 0.264);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
             height: 100%;
         }
+        
  
         #map {
             height: 100%;
             width: 100%;
         }
- 
+
         .bottom-buttons {
             position: fixed;
             left: 50%;
@@ -43,10 +45,13 @@
             padding: 15px;
             border-radius: 10px;
             min-height: 470px;
-            max-height: 470px; /* Example height, adjust as needed */
+            max-height: 470px;
             overflow-y: auto;
         }
-        
+
+        #fullSizeMapBtn {
+            margin-top: 300%; /* Top margin */
+        }
     </style>
 </head>
 <body>
@@ -59,14 +64,15 @@
     </nav>
    
     <div class="container my-5">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="map-container">
-                    <div id="map"></div>
-                </div>
+        <div class="row">   
+                <div class="col-md-4">
+                    <div class="map-container">
+                        <div id="map"></div>
+                        <!-- Full Size Button with added margin -->
+                        <button type="button" class="btn btn-secondary mt-2" id="fullSizeMapBtn">Full Size</button>
+                    </div>
             </div>
 
-            <!-- Left-aligned Form Section -->
             <div class="col-md-4">
                 <div class="gather-info-container" style="background-color: rgba(43, 43, 43, 0.264); padding: 20px; border-radius: 10px;">
                     <h2>Information</h2>
@@ -94,19 +100,17 @@
             </div>
 
             <div class="col-md-4">
-                <div class="guestlist-container" style="background-color: rgba(43, 43, 43, 0.264); padding: 15px; border-radius: 10px;">
+                <div class="guestlist-container">
                     <h2>Guestlist</h2>
                     {% for user in Gather.users %}
                         <div class="guest-container" style="background-color: rgba(0, 0, 0, 0.1); margin-bottom: 10px; padding: 10px; border-radius: 5px;">
                             <p>{{ user.email }}</p>
-                            <!-- Additional guest details here -->
                         </div>
                     {% endfor %}
                 </div>
             </div>
         </div>
- 
-        <!-- Bottom Buttons -->
+
         <div class="bottom-buttons">
             {% if current_user not in Gather.users %}
             <form action="/join_gather" method="POST">
@@ -125,59 +129,52 @@
     <input type="hidden" id="markerLat" value="{{markerLat}}">
     <input type="hidden" id="markerLng" value="{{markerLng}}">
 
-    <!-- Leaflet JS and Map Initialization Script -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         var mymap;
 
         function fetchMarkers() {
-    $.get('/get_markers', function (data) {
-        data.forEach(function (marker) {
-            var button = document.createElement('button');
-            button.className = 'btn btn-primary'; // Apply Bootstrap styling
-            button.textContent = 'Details';
+            $.get('/get_markers', function (data) {
+                data.forEach(function (marker) {
+                    var button = document.createElement('button');
+                    button.className = 'btn btn-primary'; // Apply Bootstrap styling
+                    button.textContent = 'Details';
 
-            // Create a div element to hold the button and other content
-            var popupContent = document.createElement('div');
-            popupContent.appendChild(document.createTextNode(marker.name));
-            popupContent.appendChild(document.createElement('br')); // Line break for separation
-            popupContent.appendChild(document.createElement('br'));
-            popupContent.appendChild(button);
+                    var popupContent = document.createElement('div');
+                    popupContent.appendChild(document.createTextNode(marker.name));
+                    popupContent.appendChild(document.createElement('br')); 
+                    popupContent.appendChild(document.createElement('br'));
+                    popupContent.appendChild(button);
 
-            L.marker([marker.lat, marker.lng]).addTo(mymap).bindPopup(popupContent);
-            
-            button.addEventListener('click', function () {
-                var gather_id = marker.id;
+                    L.marker([marker.lat, marker.lng]).addTo(mymap).bindPopup(popupContent);
+                    
+                    button.addEventListener('click', function () {
+                        var gather_id = marker.id;
 
-                // Using fetch to make a POST request to your Flask route
-                fetch('/extendedGatherJav', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ gather_id: gather_id }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Handle the response data if needed
-                    console.log(data);
-
-                    // Redirect to the new page after successful response
-                    window.location.href = '/render-extended-gather?gather_id=' + data.gather_id + '&markerLat=' + data.markerLat + '&markerLng=' + data.markerLng;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
+                        fetch('/extendedGatherJav', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ gather_id: gather_id }),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            window.location.href = '/render-extended-gather?gather_id=' + data.gather_id + '&markerLat=' + data.markerLat + '&markerLng=' + data.markerLng;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                    });
                 });
             });
-        });
-    });
-}
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
             var markerLat = document.getElementById('markerLat').value;
             var markerLng = document.getElementById('markerLng').value;
             var markerLng = document.getElementById('markerLng').value;
-
 
             test1 = parseFloat(markerLat);
             test2 = parseFloat(markerLng);
@@ -186,8 +183,7 @@
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(mymap); 
-
         });
-</script>
+    </script>
 </body>
 </html>
