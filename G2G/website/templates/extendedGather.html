@@ -133,48 +133,47 @@
         var mymap;
 
         function fetchMarkers() {
-            $.get('/get_markers', function (data) {
-                data.forEach(function (marker) {
-                    var button = document.createElement('button');
-                    button.textContent = 'Details';
+    $.get('/get_markers', function (data) {
+        data.forEach(function (marker) {
+            var button = document.createElement('button');
+            button.className = 'btn btn-primary'; // Add Bootstrap classes
+            button.textContent = 'Details';
 
-                    // Create a div element to hold the button and other content
-                    var popupContent = document.createElement('div');
-                    popupContent.appendChild(document.createTextNode(marker.name));
-                    popupContent.appendChild(document.createElement('br')); // Line break for separation
-                    popupContent.appendChild(document.createElement('br'));
-                    popupContent.appendChild(button);
+            // Create a div element to hold the button and other content
+            var popupContent = document.createElement('div');
+            popupContent.appendChild(document.createTextNode(marker.name));
+            popupContent.appendChild(document.createElement('br')); // Line break for separation
+            popupContent.appendChild(document.createElement('br'));
+            popupContent.appendChild(button);
 
-                    L.marker([marker.lat, marker.lng, marker.name]).addTo(mymap).bindPopup(popupContent);
-                    
-                    button.addEventListener('click', function () {
-                        var gather_id = marker.id;
+            L.marker([marker.lat, marker.lng, marker.name]).addTo(mymap).bindPopup(popupContent);
+            
+            button.addEventListener('click', function () {
+                var gather_id = marker.id;
 
-                        // Using fetch to make a POST request to your Flask route
-                        fetch('/extendedGatherJav', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ gather_id: gather_id }),
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            // Handle the response data if needed
-                            console.log(data);
+                // Using fetch to make a POST request to your Flask route
+                fetch('/extendedGatherJav', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ gather_id: gather_id }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response data if needed
+                    console.log(data);
 
-                            // Redirect to the new page after successful response
-                            window.location.href = '/render-extended-gather?gather_id=' + data.gather_id + '&markerLat=' + data.markerLat + '&markerLng=' + data.markerLng;
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-                    });
-
-                    
+                    // Redirect to the new page after successful response
+                    window.location.href = '/render-extended-gather?gather_id=' + data.gather_id + '&markerLat=' + data.markerLat + '&markerLng=' + data.markerLng;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
                 });
             });
-        }
+        });
+    });
+}
 
         document.addEventListener("DOMContentLoaded", function () {
             var markerLat = document.getElementById('markerLat').value;
