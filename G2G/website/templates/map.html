@@ -47,9 +47,6 @@
 
     <div id="map"></div>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
     <script>
         var mymap;
 
@@ -57,6 +54,7 @@
             $.get('/get_markers', function (data) {
                 data.forEach(function (marker) {
                     var button = document.createElement('button');
+                    button.className = 'btn btn-primary'; // Add Bootstrap classes
                     button.textContent = 'Details';
 
                     // Create a div element to hold the button and other content
@@ -90,9 +88,7 @@
                         .catch(error => {
                             console.error('Error:', error);
                         });
-                    });
-
-                    
+                    });                   
                 });
             });
         }
