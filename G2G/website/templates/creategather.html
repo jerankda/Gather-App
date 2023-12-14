@@ -12,8 +12,7 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-    <!-- ... existing style ... -->
-
+    <!-- Styles -->
     <style>
         body {
             margin: 0;
@@ -158,7 +157,20 @@
     </div>
 
     <script>
-        // ... existing scripts ...
+        var mymap;
+        document.addEventListener("DOMContentLoaded", function () {
+            mymap = L.map('map').setView([52.4227, 10.7865], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(mymap);
+            
+            mymap.on('click', function (e) {
+                var coordinates = e.latlng;
+                L.marker(coordinates).addTo(mymap);
+                document.getElementById("latitude").value = coordinates.lat;
+                document.getElementById("longitude").value = coordinates.lng;
+            });
+        });
     </script>
 </body>
 </html>
