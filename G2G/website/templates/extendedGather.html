@@ -19,25 +19,16 @@
  
         .map-container {
             padding: 20px;
-            padding-bottom: 60px; /* Increased bottom padding */
+            padding-bottom: 60px;
             background-color: rgba(43, 43, 43, 0.264);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
             height: 100%;
         }
-        
  
         #map {
             height: 100%;
             width: 100%;
-        }
-
-        .bottom-buttons {
-            position: fixed;
-            left: 50%;
-            bottom: 10px;
-            transform: translateX(-50%);
-            text-align: center;
         }
 
         .guestlist-container {
@@ -50,7 +41,23 @@
         }
 
         #fullSizeMapBtn {
-            margin-top: 300%; /* Top margin */
+            margin-top: 300%;
+        }
+
+        .empty-container {
+            background-color: rgba(43, 43, 43, 0.264);
+            padding: 20px;
+            border-radius: 10px;
+            min-height: 300px; /* Increased height */
+        }
+
+        .lower-container {
+            margin-top: 20px;
+        }
+
+        .bottom-buttons {
+            margin-top: 20px; /* Added margin top */
+            text-align: center;
         }
     </style>
 </head>
@@ -62,15 +69,14 @@
             </a>
         </div>
     </nav>
-   
+
     <div class="container my-5">
         <div class="row">   
-                <div class="col-md-4">
-                    <div class="map-container">
-                        <div id="map"></div>
-                        <!-- Full Size Button with added margin -->
-                        <button type="button" class="btn btn-secondary mt-2" id="fullSizeMapBtn">Full Size</button>
-                    </div>
+            <div class="col-md-4">
+                <div class="map-container">
+                    <div id="map"></div>
+                    <button type="button" class="btn btn-secondary mt-2" id="fullSizeMapBtn">Full Size</button>
+                </div>
             </div>
 
             <div class="col-md-4">
@@ -111,6 +117,16 @@
             </div>
         </div>
 
+        <!-- New empty container, positioned below -->
+        <div class="row lower-container">
+            <div class="col-md-8 offset-md-2">
+                <div class="empty-container">
+                    <!-- Content for the empty container can be added here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom buttons moved below the container -->
         <div class="bottom-buttons">
             {% if current_user not in Gather.users %}
             <form action="/join_gather" method="POST">
@@ -138,7 +154,7 @@
             $.get('/get_markers', function (data) {
                 data.forEach(function (marker) {
                     var button = document.createElement('button');
-                    button.className = 'btn btn-primary'; // Apply Bootstrap styling
+                    button.className = 'btn btn-primary';
                     button.textContent = 'Details';
 
                     var popupContent = document.createElement('div');
@@ -174,10 +190,9 @@
         document.addEventListener("DOMContentLoaded", function () {
             var markerLat = document.getElementById('markerLat').value;
             var markerLng = document.getElementById('markerLng').value;
-            var markerLng = document.getElementById('markerLng').value;
 
-            test1 = parseFloat(markerLat);
-            test2 = parseFloat(markerLng);
+            var test1 = parseFloat(markerLat);
+            var test2 = parseFloat(markerLng);
             mymap = L.map('map').setView([test1, test2], 16);
             fetchMarkers();
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
