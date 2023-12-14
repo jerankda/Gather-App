@@ -37,16 +37,6 @@
             transform: translateX(-50%);
             text-align: center;
         }
-
-        .guestlist-container {
-            background-color: rgba(43, 43, 43, 0.264);
-            padding: 15px;
-            border-radius: 10px;
-            min-height: 470px;
-            max-height: 470; /* Example height, adjust as needed */
-            overflow-y: auto;
-        }
-        
     </style>
 </head>
 <body>
@@ -64,55 +54,66 @@
                 <div class="map-container">
                     <div id="map"></div>
                 </div>
-                <!-- Full Size Button -->
-                <button type="button" class="btn btn-secondary mt-2">Full Size</button>
             </div>
 
+            <!-- Left-aligned Form Section -->
             <div class="col-md-4">
                 <div class="gather-info-container" style="background-color: rgba(43, 43, 43, 0.264); padding: 20px; border-radius: 10px;">
                     <h2>Information</h2>
                     <div class="info-subcontainer">
                         <h4>Name</h4>
-                        <p>Sample Name</p>
+                        <p>{{ Gather.name }}</p>
                     </div>
                     <div class="info-subcontainer">
                         <h4>Location</h4>
-                        <p>Sample Location</p>
+                        <p>{{ Gather.location }}</p>
                     </div>
                     <div class="info-subcontainer">
                         <h4>Time</h4>
-                        <p>Sample Time</p>
+                        <p>{{ Gather.Time.strftime('%H:%M') }}</p>
                         <div class="info-subcontainer">
                             <h4>Date</h4>
-                            <p>Sample Date</p>
+                            <p>{{ Gather.Date.strftime('%d.%m.%y') }}</p>
                         </div>
                     </div>
                     <div class="info-subcontainer">
                         <h4>Description</h4>
-                        <p>Sample Description</p>
+                        <p>{{ Gather.description }}</p>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="guestlist-container">
+                <div class="guestlist-container" style="background-color: rgba(43, 43, 43, 0.264); padding: 15px; border-radius: 10px;">
                     <h2>Guestlist</h2>
-                    <div class="guest-container" style="background-color: rgba(0, 0, 0, 0.1); margin-bottom: 10px; padding: 10px; border-radius: 5px;">
-                        <p>Sample Guest Email</p>
-                        <!-- Additional guest details here -->
-                    </div>
+                    {% for user in Gather.users %}
+                        <div class="guest-container" style="background-color: rgba(0, 0, 0, 0.1); margin-bottom: 10px; padding: 10px; border-radius: 5px;">
+                            <p>{{ user.email }}</p>
+                            <!-- Additional guest details here -->
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-
+ 
+        <!-- Bottom Buttons -->
         <div class="bottom-buttons">
-            <button type="button" class="btn btn-success">Join Gather</button>
-            <button type="button" class="btn btn-danger">Leave Gather</button>
+            {% if current_user not in Gather.users %}
+            <form action="/join_gather" method="POST">
+                <input type="hidden" name="gather_id" value="{{ Gather.id }}">
+                <button type="submit" class="btn btn-success">Join Gather</button>
+            </form>
+            {% else %}
+            <form action="/leave_gather" method="POST">
+                <input type="hidden" name="gather_id" value="{{ Gather.id }}">
+                <button type="submit" class="btn btn-danger">Leave Gather</button>
+            </form>
+            {% endif %}
         </div>
     </div>
-
-    <input type="hidden" id="markerLat" value="Sample Latitude">
-    <input type="hidden" id="markerLng" value="Sample Longitude">
+ 
+    <input type="hidden" id="markerLat" value="{{markerLat}}">
+    <input type="hidden" id="markerLng" value="{{markerLng}}">
 
     <!-- Leaflet JS and Map Initialization Script -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -124,7 +125,6 @@
             $.get('/get_markers', function (data) {
                 data.forEach(function (marker) {
                     var button = document.createElement('button');
-                    button.className = 'btn btn-primary'; // Add Bootstrap classes
                     button.textContent = 'Details';
 
                     // Create a div element to hold the button and other content
@@ -134,26 +134,52 @@
                     popupContent.appendChild(document.createElement('br'));
                     popupContent.appendChild(button);
 
-                    L.marker([marker.lat, marker.lng]).addTo(mymap).bindPopup(popupContent);
+                    L.marker([marker.lat, marker.lng, marker.name]).addTo(mymap).bindPopup(popupContent);
                     
                     button.addEventListener('click', function () {
                         var gather_id = marker.id;
-                        // Fetch request and other functionalities
+
+                        // Using fetch to make a POST request to your Flask route
+                        fetch('/extendedGatherJav', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ gather_id: gather_id }),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Handle the response data if needed
+                            console.log(data);
+
+                            // Redirect to the new page after successful response
+                            window.location.href = '/render-extended-gather?gather_id=' + data.gather_id + '&markerLat=' + data.markerLat + '&markerLng=' + data.markerLng;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
                     });
+
+                    
                 });
             });
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            var markerLat = parseFloat(document.getElementById('markerLat').value);
-            var markerLng = parseFloat(document.getElementById('markerLng').value);
+            var markerLat = document.getElementById('markerLat').value;
+            var markerLng = document.getElementById('markerLng').value;
+            var markerLng = document.getElementById('markerLng').value;
 
-            mymap = L.map('map').setView([markerLat, markerLng], 16);
+
+            test1 = parseFloat(markerLat);
+            test2 = parseFloat(markerLng);
+            mymap = L.map('map').setView([test1, test2], 16);
             fetchMarkers();
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(mymap); 
+
         });
-    </script>
+</script>
 </body>
 </html>
