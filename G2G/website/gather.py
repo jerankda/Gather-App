@@ -20,9 +20,15 @@ def create_gather():
         latitude = request.form.get('latitude')
         longitude = request.form.get('longitude')
 
-        if latitude or longitude == '':
+        if latitude == '':
             latitude = 40
             longitude = 127
+
+        if date_str:
+            year = int(date_str.split('-')[0])
+            if year < 1900:
+                flash('Year must be after 1900. Please select a valid date.', category='error')
+                return render_template("creategather.html")
 
         if len(name) == 0:
             flash('Please give your Gather a name.', category='error')
@@ -74,7 +80,12 @@ def join_gather():
     db.session.add(gather)
     db.session.commit()
 
-    return render_template('extendedGather.html', Gather=gather)
+    marker = Marker.query.filter_by(gather_id=gather_id).first()
+
+    markerLat = marker.lat
+    markerLng = marker.lng
+
+    return render_template("extendedGather.html", Gather = gather, markerLat=markerLat, markerLng=markerLng)
 
 #leaving a gather
 @gather.route("/leave_gather", methods=['POST'])
@@ -89,7 +100,12 @@ def leave_gather():
         gather.users.remove(user)
     
     db.session.commit()
-    return render_template('extendedGather.html', Gather=gather)
+    marker = Marker.query.filter_by(gather_id=gather_id).first()
+
+    markerLat = marker.lat
+    markerLng = marker.lng
+
+    return render_template("extendedGather.html", Gather = gather, markerLat=markerLat, markerLng=markerLng)
 
 #kick User from Gather
 @gather.route("/kickUser", methods=['POST'])
@@ -132,6 +148,12 @@ def saveChanges():
         new_Date_str = request.form.get('date')
         gather_id = request.form['gather_id']
 
+        if new_Date_str:
+            year = int(new_Date_str.split('-')[0])
+            if year < 1900:
+                flash('Year must be after 1900. Please select a valid date.', category='error')
+                return render_template("manageGather.html")
+
         gather = Gather.query.get(gather_id)
 
         # Convert the date and time strings to date and time objects
@@ -168,11 +190,7 @@ def extendedGather():
     gather = Gather.query.get(gather_id)
     marker = Marker.query.filter_by(gather_id=gather_id).first()
 
-    if marker:
-        markerLat = marker.lat
-        markerLng = marker.lng
+    markerLat = marker.lat
+    markerLng = marker.lng
 
-        print(markerLat)
-        print(markerLng)
-        
     return render_template("extendedGather.html", Gather = gather, markerLat=markerLat, markerLng=markerLng)

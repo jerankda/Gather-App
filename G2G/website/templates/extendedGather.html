@@ -124,7 +124,23 @@
         function fetchMarkers() {
             $.get('/get_markers', function (data) {
                 data.forEach(function (marker) {
-                    L.marker([marker.lat, marker.lng, marker.name]).addTo(mymap).bindPopup(marker.name);
+                    var button = document.createElement('button');
+                    button.textContent = 'Details';
+
+                    // Create a div element to hold the button and other content
+                    var popupContent = document.createElement('div');
+                    popupContent.appendChild(document.createTextNode(marker.name));
+                    popupContent.appendChild(document.createElement('br')); // Line break for separation
+                    popupContent.appendChild(document.createElement('br'));
+                    popupContent.appendChild(button);
+
+                    L.marker([marker.lat, marker.lng, marker.name]).addTo(mymap).bindPopup(popupContent);
+                    
+                    button.addEventListener('click', function () {
+                    // Use the captured value of marker within the event listener
+                    alert('Button clicked for marker ' + marker.name);
+            }); 
+                    
                 });
             });
         }
@@ -136,7 +152,7 @@
 
             test1 = parseFloat(markerLat);
             test2 = parseFloat(markerLng);
-            mymap = L.map('map').setView([test1, test2], 13);
+            mymap = L.map('map').setView([test1, test2], 16);
             fetchMarkers();
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
