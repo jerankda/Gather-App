@@ -35,8 +35,15 @@ class Gather(db.Model, UserMixin):
 #creating a Database for the map pins
 class Marker(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    lat = db.Column(db.Float, nullable=True) 
-    lng = db.Column(db.Float, nullable=True)
+    lat = db.Column(db.Float) 
+    lng = db.Column(db.Float)
     gather_id = db.Column(db.Integer, db.ForeignKey('gather.id'))
     gather = db.relationship('Gather', back_populates='markers')
+
+#creating a Database for the messages
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.String(200), nullable=True)
+    content = db.Column(db.String(500), nullable=True)
+    created_at = db.Column(db.DateTime(), default=datetime.utcnow)
     
