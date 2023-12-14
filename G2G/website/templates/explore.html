@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="shortcut icon" type="image/x-icon" href="static/assets/icon.ico">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap">
@@ -128,8 +130,22 @@
             top: 50%; /* Vertically align to the middle of the header */
             transform: translateY(-50%);
             z-index: 400;
-            right: 100px; /* Adjust the right distance as needed */
+            left: 20px; /* Position it on the left side of the header */
+            color: white; /* Set text color */
+            text-decoration: none; /* Remove underline from link */
+            font-size: 16px; /* Set font size */
+            background-color: #a54caf; /* Button background color */
+            padding: 10px 20px; /* Padding around text */
+            border-radius: 15px; /* Rounded corners */
+            border: none; /* Optional: add border */
+            transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
         }
+        
+        .manage-button:hover {
+            background-color: #5b0f5e; /* Darker shade for hover effect */
+            color: #fff; /* Text color on hover */
+        }
+        
         
         .manage-button img {
             width: 30px;
@@ -153,9 +169,7 @@
         </a>
 
         <!-- Manage Gather button -->
-        <a href="{{ url_for('views.manageGather') }}" class="manage-button">
-            <img src="static/assets/manage.png" alt="Manage">
-        </a>
+        <a href="{{ url_for('views.manageGather') }}" class="manage-button">Your Gathers</a>
 
         
     </header>
