@@ -162,7 +162,14 @@ def saveChanges():
             gather.Date = new_Date
 
         if new_Time_str:
-            new_Time = datetime.strptime(new_Time_str, '%H:%M').time()
+            try:
+                new_Time = datetime.strptime(new_Time_str, '%H:%M').time()
+            except ValueError:
+                try:
+                    new_Time = datetime.strptime(new_Time_str, '%H:%M:%S').time()
+                except ValueError:
+                    flash('Invalid time format. Please use HH:MM or HH:MM:SS.', category='error')
+                    return render_template("manageGather.html", Gather=gather)
             gather.Time = new_Time
 
         # Update the new Entries
