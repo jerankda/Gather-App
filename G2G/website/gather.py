@@ -159,8 +159,8 @@ def saveChanges():
 
         if new_Date_str:
             year = int(new_Date_str.split('-')[0])
-            if year < 1900:
-                flash('Year must be after 1900. Please select a valid date.', category='error')
+            if 3000  < year < 1900:
+                flash('Year must be between 1900 and 3000. Please select a valid date.', category='error')
                 return render_template("manageGather.html")
 
         gather = Gather.query.get(gather_id)
@@ -249,14 +249,14 @@ def render_extended_gather():
 def sendMessage():
 
     text = request.form['content']
+    gather_id = request.form['gather_id']
     user = current_user.email
 
-    new_message = Message(user=user,content=text)
+    new_message = Message(user=user,content=text, gather_id=gather_id)
     db.session.add(new_message)
     db.session.commit()
 
 
-    gather_id = request.form['gather_id']
     gather = Gather.query.get(gather_id)
     marker = Marker.query.filter_by(gather_id=gather_id).first()
     markerLat = marker.lat

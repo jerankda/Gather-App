@@ -78,6 +78,7 @@
         .lower-container {
             margin-top: 20px;
             border-radius: 10px;
+            min-height: 300px;
             height: 300px; /* Fixed height */
             overflow-y: auto;
         }
@@ -130,6 +131,8 @@
           background-color: rgba(0, 0, 0, 0.05);
           color: white;
         }
+
+
         .my-form input {
             background-color: rgba(0, 0, 0, 0.05);
             border: none;
@@ -206,15 +209,17 @@
             <div class="col-md-8 offset-md-2">
                 <div class="empty-container">
                     {% for message in messages %}
-                    <div class="d-flex {%if current_user.email == message.user%} justify-content-end {% else %} justify-content-start {% endif %} mt-5">
-                        <div class="card">
-                            <div class="card-body">
-                            <b>{{ message.user }}:</b>
-                            {{ message.content }}
-                            <span class="msg-date"> {{message.created_at.strftime('%d.%m.%Y %H:%M')}}</span>
+                        {% if message.gather_id == Gather.id %}
+                            <div class="d-flex {%if current_user.email == message.user%} justify-content-end {% else %} justify-content-start {% endif %} mt-5">
+                                <div class="card">
+                                    <div class="card-body">
+                                    <b>{{ message.user }}:</b>
+                                    {{ message.content }}
+                                    <span class="msg-date"> {{message.created_at.strftime('%d.%m.%Y %H:%M')}}</span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        {% endif %}
                     {% endfor %}
 
 

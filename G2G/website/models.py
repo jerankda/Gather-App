@@ -46,4 +46,5 @@ class Message(db.Model):
     user = db.Column(db.String(200), nullable=True)
     content = db.Column(db.String(500), nullable=True)
     created_at = db.Column(db.DateTime(), default=datetime.utcnow)
-    
+    gather_id = db.Column(db.Integer, db.ForeignKey('gather.id'))
+    gather = db.relationship('Gather', backref='messages')
