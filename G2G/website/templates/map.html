@@ -34,7 +34,7 @@
             top: 10px;
             left: 50px;
             color: white;
-            background: rgba(0, 0, 255, 0.5); /* Semi-transparent blue background */
+            background: rgba(0, 0, 255, 0.5);
             border: none;
             padding: 10px;
             border-radius: 5px;
@@ -54,43 +54,23 @@
 
         function fetchMarkers() {
             $.get('/get_markers', function (data) {
-                data.forEach(function (marker) {
-                    var button = document.createElement('button');
-                    button.className = 'btn btn-primary'; // Add Bootstrap classes
+                data.forEach(function (marker) { 
+                    var button = document.createElement('button'); //create a Button inside the pins popup
+                    button.className = 'btn btn-primary';
                     button.textContent = 'Details';
 
-                    // Create a div element to hold the button and other content
                     var popupContent = document.createElement('div');
                     popupContent.appendChild(document.createTextNode(marker.name));
-                    popupContent.appendChild(document.createElement('br')); // Line break for separation
+                    popupContent.appendChild(document.createElement('br')); 
                     popupContent.appendChild(document.createElement('br'));
                     popupContent.appendChild(button);
 
-                    L.marker([marker.lat, marker.lng, marker.name]).addTo(mymap).bindPopup(popupContent);
+                    L.marker([marker.lat, marker.lng]).addTo(mymap).bindPopup(popupContent);
                     
+                    //Open the extendedGather page of the Gather, thats connected to the pin
                     button.addEventListener('click', function () {
-                        var gather_id = marker.id;
-
-                        // Using fetch to make a POST request to your Flask route
-                        fetch('/extendedGatherJav', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ gather_id: gather_id }),
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            // Handle the response data if needed
-                            console.log(data);
-
-                            // Redirect to the new page after successful response
-                            window.location.href = '/render-extended-gather?gather_id=' + data.gather_id + '&markerLat=' + data.markerLat + '&markerLng=' + data.markerLng;
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-                    });                   
+                        window.location.href = '/render-extended-gather?gather_id=' + marker.id + '&markerLat=' + marker.lat + '&markerLng=' + marker.lng;
+                    });
                 });
             });
         }

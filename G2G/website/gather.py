@@ -56,6 +56,7 @@ def create_gather():
 
 #refreshing the gather-finding-page to show the gathers
 @gather.route("/anzeigen", methods=['GET', 'POST'])
+@login_required
 def start_page():
 
     Gathers = Gather.query.order_by(Gather.id).all()
@@ -63,6 +64,7 @@ def start_page():
 
 #shows gathers which user created himself
 @gather.route("/showowngather", methods=['GET', 'POST'])
+@login_required
 def ownGather():
     user_id = current_user.id
     gathers = Gather.query.filter_by(user_id=user_id).order_by(Gather.id).all()
@@ -77,9 +79,9 @@ def join_gather():
     gather = Gather.query.get(gather_id)
 
     user = current_user
-    gather.users.append(user)
 
     if user not in gather.users:
+        gather.users.append(user)
         db.session.add(gather)
         db.session.commit()
 
@@ -134,11 +136,13 @@ def kickUser():
 
 # Giving the map the location and name of all already set pins
 @gather.route('/get_markers')
+@login_required
 def get_markers():
     markers = Marker.query.all()
     markers_data = [{'lat': marker.lat, 'lng': marker.lng, 'name': marker.gather.name, 'id': marker.gather.id } for marker in markers]
     return jsonify(markers_data)
-    
+
+#Get the Gather ID and load the editGather page
 @gather.route('/editGather', methods=['GET', 'POST'])
 @login_required
 def editGather():
@@ -146,6 +150,7 @@ def editGather():
     gather = Gather.query.get(gather_id)
     return render_template("editGather.html",Gather=gather)
     
+#Get the changes to the Gather and commit them to the Database
 @gather.route('/saveChanges',methods=['GET','POST'])
 @login_required
 def saveChanges():
@@ -188,17 +193,21 @@ def saveChanges():
 
         db.session.commit()
         return render_template("manageGather.html", Gather=gather)
+    
+#Delete a Gather and all data connected to it
 @gather.route('/deleteGather',methods=['GET','POST'])
 @login_required
 def deleteGather():
       if request.method == 'POST':
         gatherId = request.form['gather_id']
         db.session.query(user_gather_association).filter_by(gather_id=gatherId).delete(all)
+        db.session.query(Message).filter_by(gather_id=gatherId).delete()
         db.session.query(Marker).filter_by(gather_id=gatherId).delete()
         db.session.query(Gather).filter_by(id=gatherId).delete()
         db.session.commit()
         return render_template("manageGather.html")
 
+#Get the Gather, the coordinates of its Marker and its messages und give them to the extendedGather.html
 @gather.route('/extendedGather',methods=['GET','POST'])
 @login_required
 def extendedGather():
@@ -213,24 +222,7 @@ def extendedGather():
 
     return render_template("extendedGather.html", Gather = gather, markerLat=markerLat, markerLng=markerLng, messages=messages)
 
-
-@gather.route('/extendedGatherJav', methods=['POST'])
-@login_required
-def extendedGatherJav():
-    data = request.get_json()
-    gather_id = data['gather_id']
-    gather = Gather.query.get(gather_id)
-    marker = Marker.query.filter_by(gather_id=gather_id).first()
-    markerLat = marker.lat
-    markerLng = marker.lng
-
-    print(gather_id)
-    print(markerLat)
-    print(markerLng)
-
-    # Return data for redirect in JSON format
-    return jsonify(gather_id=gather_id, markerLat=markerLat, markerLng=markerLng)
-
+#Get the Gather, the coordinates of its Marker and its messages und give them to the extendedGather.html, executed by JavaScript
 @gather.route('/render-extended-gather', methods=['GET'])
 @login_required
 def render_extended_gather():
@@ -243,7 +235,7 @@ def render_extended_gather():
 
     return render_template("extendedGather.html", Gather=gather, markerLat=markerLat, markerLng=markerLng, messages=messages)
 
-
+#Get the message and commit it to the database
 @gather.route('/sendMessage', methods=['POST'])
 @login_required
 def sendMessage():

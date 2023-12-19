@@ -18,6 +18,18 @@
             flex-direction: column;
             min-height: 100vh;
             background: linear-gradient(blue, purple);
+            overflow-y: auto;
+        }
+        body::-webkit-scrollbar {
+            width: 5px; /* Width of the scrollbar */
+        }
+
+        body::-webkit-scrollbar-track {
+            background: rgb(79, 73, 73); /* Track color (lady lips color) */
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: #e754806f; /* Thumb color (lady lips color) */
         }
 
         .container {
@@ -57,9 +69,14 @@
         .msg-date{
           color: rgba(187, 185, 185, 0.861)
         }
+        .btn-success{
+            background-color: rgba(67, 130, 238, 0.852);
+            border: none;
+        }
     </style>
 </head>
 <body>
+
 
     <a href="/explore" class="btn btn-primary back-button">&#8592;</a>
     <header>
@@ -91,7 +108,7 @@
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <form action="/extendedGather" method="POST">
                             <input type="hidden" name="gather_id" value="{{ Gather.id }}">
-                            <button type="submit" class="btn btn-success">See More</button>
+                            <button type="submit" class="btn btn-success">see more</button>
                         </form>
                         <div>
                             <p><span class="msg-date">Created by {{ Gather.Host }} on {{Gather.createdAt.strftime('%d.%m.%y')}}</span> </p>

@@ -20,13 +20,15 @@
             overflow-y: auto;
         }
         body::-webkit-scrollbar {
-            width: 0px; /* Width of the scrollbar */
+            width: 5px;
         }
+
         body::-webkit-scrollbar-track {
-            background: transparent; /* Make the track transparent */
+            background: rgb(79, 73, 73);
         }
+
         body::-webkit-scrollbar-thumb {
-            background: transparent; /* Make the thumb (handle) transparent */
+            background: #e754806f; 
         }
 
  
@@ -53,13 +55,13 @@
             overflow-y: auto;
         }
         .guestlist-container::-webkit-scrollbar {
-            width: 12px; /* Width of the scrollbar */
+            width: 12px;
         }
         .guestlist-container::-webkit-scrollbar-track {
-            background: transparent; /* Make the track transparent */
+            background: transparent;
         }
         .guestlist-container::-webkit-scrollbar-thumb {
-            background: transparent; /* Make the thumb (handle) transparent */
+            background: transparent; 
         }
 
         #fullSizeMapBtn {
@@ -71,7 +73,7 @@
             background-color: rgba(43, 43, 43, 0.264);
             padding: 20px;
             border-radius: 10px;
-            min-height: 300px; /* Increased height */
+            min-height: 300px; 
             overflow-y: auto;
         }
 
@@ -79,21 +81,21 @@
             margin-top: 20px;
             border-radius: 10px;
             min-height: 300px;
-            height: 300px; /* Fixed height */
+            height: 300px;
             overflow-y: auto;
         }
         .lower-container::-webkit-scrollbar {
-            width: 12px; /* Width of the scrollbar */
+            width: 12px; 
         }
         .lower-container::-webkit-scrollbar-track {
-            background: transparent; /* Make the track transparent */
+            background: transparent; 
         }
         .lower-container::-webkit-scrollbar-thumb {
-            background: transparent; /* Make the thumb (handle) transparent */
+            background: transparent; 
         }
 
         .bottom-buttons {
-            margin-top: 20px; /* Added margin top */
+            margin-top: 20px; 
             text-align: center;
         }
 
@@ -103,18 +105,18 @@
             border-radius: 10px;
             min-height: 470px; /* Set minimum height */
             max-height: 470px; /* Set maximum height */
-            overflow-y: auto; /* Optional: add this if you want a scrollbar when content overflows */
+            overflow-y: auto; 
             word-wrap: break-word;
             max-width: 100%;
         }
         .gather-info-container::-webkit-scrollbar {
-            width: 12px; /* Width of the scrollbar */
+            width: 12px; 
         }
         .gather-info-container::-webkit-scrollbar-track {
-            background: transparent; /* Make the track transparent */
+            background: transparent; 
         }
         .gather-info-container::-webkit-scrollbar-thumb {
-            background: transparent; /* Make the thumb (handle) transparent */
+            background: transparent; 
         }
         
         .msg-date{
@@ -126,14 +128,23 @@
         }
         .card{
           bottom: 15px;
-          margin-bottom: 1px;
-          padding-bottom:  3px;
+          margin-bottom: -40px;
+          padding-bottom:  5px;
           background-color: rgba(0, 0, 0, 0.05);
           color: white;
         }
 
+        .my-form button {
+            margin-bottom: -30px;
+            margin-top: 50px;
+            background-color: #8383834f; 
+            color: white;
+            border: none; 
+        }
 
         .my-form input {
+            margin-bottom: -30px;
+            margin-top: 50px;
             background-color: rgba(0, 0, 0, 0.05);
             border: none;
             color: white;
@@ -141,11 +152,7 @@
         .my-form input::placeholder {
         color: #ffffff68;
         }
-        .my-form button {
-            background-color: #8383834f; /* Set the background color to your desired color */
-            color: white; /* Set text color to white */
-            border: none; /* Remove border */
-        }
+       
     </style>
 </head>
 <body>
@@ -204,7 +211,7 @@
             </div>
         </div>
 
-        <!-- New empty container, positioned below -->
+       
         <div class="row lower-container">
             <div class="col-md-8 offset-md-2">
                 <div class="empty-container">
@@ -235,7 +242,7 @@
             </div>
         </div>
 
-        <!-- Bottom buttons moved below the container -->
+        
         <div class="bottom-buttons">
             {% if current_user not in Gather.users %}
             <form action="/join_gather" method="POST">
@@ -261,8 +268,8 @@
 
         function fetchMarkers() {
             $.get('/get_markers', function (data) {
-                data.forEach(function (marker) {
-                    var button = document.createElement('button');
+                data.forEach(function (marker) { 
+                    var button = document.createElement('button'); //create a Button inside the pins popup
                     button.className = 'btn btn-primary';
                     button.textContent = 'Details';
 
@@ -274,23 +281,9 @@
 
                     L.marker([marker.lat, marker.lng]).addTo(mymap).bindPopup(popupContent);
                     
+                    //Open the extendedGather page of the Gather, thats connected to the pin
                     button.addEventListener('click', function () {
-                        var gather_id = marker.id;
-
-                        fetch('/extendedGatherJav', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ gather_id: gather_id }),
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            window.location.href = '/render-extended-gather?gather_id=' + data.gather_id + '&markerLat=' + data.markerLat + '&markerLng=' + data.markerLng;
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
+                        window.location.href = '/render-extended-gather?gather_id=' + marker.id + '&markerLat=' + marker.lat + '&markerLng=' + marker.lng;
                     });
                 });
             });

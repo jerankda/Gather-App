@@ -121,7 +121,6 @@
 
     <div class="container my-5">
         <div class="row">
-            <!-- Form Container -->
             <div class="col-md-6">
                 <div class="form-container">
                     <form action="/create" method="POST">
@@ -142,14 +141,13 @@
                                 placeholder="Enter your description"></textarea>
                             <input type="hidden" id="latitude" name="latitude">
                             <input type="hidden" id="longitude" name="longitude">
-                            After filling out the form, set a pin, then submit
+                            set a pin on the map before you submit ^^
                         </div>
                         <button type="submit" class="btn btn-primary btn-block">Submit</button>
                     </form>
                 </div>
             </div>
 
-            <!-- Map Container -->
             <div class="col-md-6">
                 <div class="map-container">
                     <div id="map"></div>
@@ -166,9 +164,11 @@
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(mymap);
             
+            var markersLayer = L.layerGroup().addTo(mymap);
             mymap.on('click', function (e) {
                 var coordinates = e.latlng;
-                L.marker(coordinates).addTo(mymap);
+                markersLayer.clearLayers();
+                L.marker(coordinates).addTo(markersLayer);
                 document.getElementById("latitude").value = coordinates.lat;
                 document.getElementById("longitude").value = coordinates.lng;
             });
