@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request , flash , jsonify , redirect, url_for
+from flask import Blueprint, render_template, request , flash , jsonify
 from . import db
 from .models import Gather, User, Marker, user_gather_association, Message
 from flask_login import current_user, login_required
@@ -134,7 +134,7 @@ def kickUser():
     db.session.commit()
     return render_template('editGather.html',Gather=gather)
 
-# Giving the map the location and name of all already set pins
+# returning the location and names of all already set pins
 @gather.route('/get_markers')
 @login_required
 def get_markers():
@@ -244,9 +244,10 @@ def sendMessage():
     gather_id = request.form['gather_id']
     user = current_user.email
 
-    new_message = Message(user=user,content=text, gather_id=gather_id)
-    db.session.add(new_message)
-    db.session.commit()
+    if text != '':
+        new_message = Message(user=user,content=text, gather_id=gather_id)
+        db.session.add(new_message)
+        db.session.commit()
 
 
     gather = Gather.query.get(gather_id)

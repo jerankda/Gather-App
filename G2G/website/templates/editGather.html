@@ -9,13 +9,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body style="background: linear-gradient(rgb(255, 98, 0), purple); color: white; background-repeat: no-repeat; background-attachment: fixed; background-size: cover;">
-    <nav class="navbar navbar-light">
-        <div class="container">
-            <a class="navbar-brand" href="/manageGather">
-                <button type="button" class="btn btn-primary">&#8592;</button>
-            </a>
-        </div>
-    </nav>
+    <a href="/manageGather" class="btn btn-primary back-button">&#8592;</a>
+    <header>
+        <h1>Edit your Gather</h1>
+    </header>
+
     <div class="container mt-3">
         <div class="row">
             <!-- Left-aligned Form Section -->
@@ -34,7 +32,7 @@
                         <div class="form-group">
                             <label for="date" class="form-label">Date</label>
                             <input type="date" class="form-control" name="date" value="{{Gather.Date}}" placeholder="Select a date" min="2023-12-19" max="3000-12-31">
-                        </div>0
+                        </div>
                         <!-- New input field for Time -->
                         <div class="form-group">
                             <label for="time" class="form-label">time</label>
@@ -92,18 +90,37 @@
     text-align: center;
 }
 .kick-button {
-        visibility: hidden;
-    }
-
-    .guestlist-container{
-min-height: 520px;
-max-height: 520px;
-overflow-y: auto;
+    visibility: hidden;
 }
 
-    .guest-container:hover .kick-button {
-        visibility: visible;
+.guestlist-container{
+    min-height: 520px;
+    max-height: 520px;
+    overflow-y: auto;
+}
+
+.guest-container:hover .kick-button {
+    visibility: visible;
         	
-    }
+}
+
+.back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    background: rgba(0, 0, 255, 0.5);
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+}
+header {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.0);
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    z-index: 10;
+}
 </style>
 </html>
