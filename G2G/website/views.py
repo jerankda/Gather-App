@@ -23,6 +23,7 @@ def map():
 
 # Renders the create gather page
 @views.route('/creategather', methods=['GET', 'POST'])
+@login_required
 def creategather():
     return render_template("creategather.html",user=current_user)
 

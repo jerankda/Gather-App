@@ -28,6 +28,7 @@
             max-width: 90%;
             margin: auto;
             margin-top: 6%;
+
         }
 
         .back-button {
@@ -52,6 +53,9 @@
             text-align: center;
             padding: 10px 0;
             z-index: 10;
+        }
+        .msg-date{
+          color: rgba(187, 185, 185, 0.861)
         }
     </style>
 </head>
@@ -90,7 +94,7 @@
                             <button type="submit" class="btn btn-success">See More</button>
                         </form>
                         <div>
-                            <p>Created by {{ Gather.Host }} on <span class="msg-date">{{Gather.createdAt.strftime('%d.%m.%y')}}</span> </p>
+                            <p><span class="msg-date">Created by {{ Gather.Host }} on {{Gather.createdAt.strftime('%d.%m.%y')}}</span> </p>
                         </div>
                     </div>
                 </div>

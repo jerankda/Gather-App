@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request , flash , jsonify , redirect, url_for
 from . import db
-from .models import Gather, User, Marker, user_gather_association
+from .models import Gather, User, Marker, user_gather_association, Message
 from flask_login import current_user, login_required
 from datetime import datetime
 
@@ -8,6 +8,7 @@ gather = Blueprint('gather', __name__)
 
 # create a gather and a marker and add them to databank
 @gather.route('/create',methods=['GET','POST'])
+@login_required
 def create_gather():
     if request.method == 'POST':
         name = request.form.get('name')
@@ -69,6 +70,7 @@ def ownGather():
 
 #joining a gather
 @gather.route("/join_gather", methods=['POST'])
+@login_required
 def join_gather():
 
     gather_id = request.form['gather_id']
@@ -77,18 +79,22 @@ def join_gather():
     user = current_user
     gather.users.append(user)
 
-    db.session.add(gather)
-    db.session.commit()
+    if user not in gather.users:
+        db.session.add(gather)
+        db.session.commit()
 
     marker = Marker.query.filter_by(gather_id=gather_id).first()
 
     markerLat = marker.lat
     markerLng = marker.lng
 
-    return render_template("extendedGather.html", Gather = gather, markerLat=markerLat, markerLng=markerLng)
+    messages = Message.query.order_by(Message.created_at).all()
+
+    return render_template("extendedGather.html", Gather = gather, markerLat=markerLat, markerLng=markerLng, messages=messages)
 
 #leaving a gather
 @gather.route("/leave_gather", methods=['POST'])
+@login_required
 def leave_gather():
 
     gather_id = request.form['gather_id']
@@ -105,10 +111,13 @@ def leave_gather():
     markerLat = marker.lat
     markerLng = marker.lng
 
-    return render_template("extendedGather.html", Gather = gather, markerLat=markerLat, markerLng=markerLng)
+    messages = Message.query.order_by(Message.created_at).all()
+
+    return render_template("extendedGather.html", Gather = gather, markerLat=markerLat, markerLng=markerLng, messages=messages)
 
 #kick User from Gather
 @gather.route("/kickUser", methods=['POST'])
+@login_required
 def kickUser():
 
     gather_id = request.form['gather_id']
@@ -200,7 +209,9 @@ def extendedGather():
     markerLat = marker.lat
     markerLng = marker.lng
 
-    return render_template("extendedGather.html", Gather = gather, markerLat=markerLat, markerLng=markerLng)
+    messages = Message.query.order_by(Message.created_at).all()
+
+    return render_template("extendedGather.html", Gather = gather, markerLat=markerLat, markerLng=markerLng, messages=messages)
 
 
 @gather.route('/extendedGatherJav', methods=['POST'])
@@ -228,5 +239,28 @@ def render_extended_gather():
     markerLng = request.args.get('markerLng')
 
     gather = Gather.query.get(gather_id)
+    messages = Message.query.order_by(Message.created_at).all()
 
-    return render_template("extendedGather.html", Gather=gather, markerLat=markerLat, markerLng=markerLng)
+    return render_template("extendedGather.html", Gather=gather, markerLat=markerLat, markerLng=markerLng, messages=messages)
+
+
+@gather.route('/sendMessage', methods=['POST'])
+@login_required
+def sendMessage():
+
+    text = request.form['content']
+    user = current_user.email
+
+    new_message = Message(user=user,content=text)
+    db.session.add(new_message)
+    db.session.commit()
+
+
+    gather_id = request.form['gather_id']
+    gather = Gather.query.get(gather_id)
+    marker = Marker.query.filter_by(gather_id=gather_id).first()
+    markerLat = marker.lat
+    markerLng = marker.lng
+    messages = Message.query.order_by(Message.created_at).all()
+
+    return render_template("extendedGather.html", Gather = gather, markerLat=markerLat, markerLng=markerLng, messages=messages)
