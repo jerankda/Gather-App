@@ -22,8 +22,8 @@ def create_gather():
         longitude = request.form.get('longitude')
 
         if latitude == '':
-            latitude = 40
-            longitude = 127
+            latitude = 1.111111111111 
+            longitude = 1.111111111111
 
         if date_str:
             year = int(date_str.split('-')[0])
@@ -142,6 +142,19 @@ def get_markers():
     markers_data = [{'lat': marker.lat, 'lng': marker.lng, 'name': marker.gather.name, 'id': marker.gather.id } for marker in markers]
     return jsonify(markers_data)
 
+
+# loading the map, but with the view on the last gather
+@gather.route('/loadMapWithCoordinates', methods=['POST'])
+@login_required
+def loadMapWithCoordinates():
+
+    gather_id = request.form['gather_id']
+    marker = Marker.query.filter_by(gather_id=gather_id).first()
+    markerLat = marker.lat
+    markerLng = marker.lng
+    return render_template("map.html", markerLat=markerLat,markerLng=markerLng, gather_id=gather_id)
+
+
 #Get the Gather ID and load the editGather page
 @gather.route('/editGather', methods=['GET', 'POST'])
 @login_required
@@ -214,7 +227,7 @@ def extendedGather():
     gather_id = request.form['gather_id']
     gather = Gather.query.get(gather_id)
     marker = Marker.query.filter_by(gather_id=gather_id).first()
-
+    print(gather_id)
     markerLat = marker.lat
     markerLng = marker.lng
 

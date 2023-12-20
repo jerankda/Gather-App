@@ -55,7 +55,7 @@
             overflow-y: auto;
         }
         .guestlist-container::-webkit-scrollbar {
-            width: 12px;
+            width: 0px;
         }
         .guestlist-container::-webkit-scrollbar-track {
             background: transparent;
@@ -164,9 +164,14 @@
         color: #ffffff68;
         }
        
+        .d-flex.filler {
+            opacity: 0; /* make the filler cards transparent */
+        }
+
     </style>
 </head>
 <body>
+    
     <a href="/gather_find" class="btn btn-primary back-button">&#8592;</a>
 
     <div class="container my-5">
@@ -174,9 +179,10 @@
             <div class="col-md-4">
                 <div class="map-container">
                     <div id="map"></div>
-                    <a href="/map">
-                        <button type="button" class="btn btn-secondary mt-2" id="fullSizeMapBtn">Full Size</button>
-                    </a>
+                    <form action="/loadMapWithCoordinates" method="POST">
+                        <input type="hidden" name="gather_id" value="{{ Gather.id }}">
+                        <button type="submit" class="btn btn-secondary mt-2" id="fullSizeMapBtn">Full Size</button>
+                    </form>
                 </div>
             </div>
 
@@ -222,6 +228,9 @@
         <div class="row lower-container">
             <div class="col-md-8 offset-md-2">
                 <div class="empty-container">
+                    <div class="d-flex filler mt-5"><div class="card"><div class="card-body"><b>filler</b></div></div></div> <!-- filler cards, so that the input is at thr bottom -->
+                    <div class="d-flex filler mt-5"><div class="card"><div class="card-body"><b>filler</b></div></div></div>
+                    <div class="d-flex filler mt-5"><div class="card"><div class="card-body"><b>filler</b></div></div></div>
                     {% for message in messages %}
                         {% if message.gather_id == Gather.id %}
                             <div class="d-flex {%if current_user.email == message.user%} justify-content-end {% else %} justify-content-start {% endif %} mt-5">
@@ -299,7 +308,7 @@
         document.addEventListener("DOMContentLoaded", function () {
             var markerLat = document.getElementById('markerLat').value;
             var markerLng = document.getElementById('markerLng').value;
-
+            
             var test1 = parseFloat(markerLat);
             var test2 = parseFloat(markerLng);
             mymap = L.map('map').setView([test1, test2], 16);

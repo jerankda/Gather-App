@@ -44,11 +44,20 @@
  
 </head>
 <body>
+    
+    {% if gather_id is defined and gather_id != ''  %}
+        <form action="/extendedGather" method="POST">
+            <input type="hidden" name="gather_id" value="{{gather_id}}">
+            <button type="submit" class="btn btn-primary back-button">&#8592;</button>
+        </form>
+    {% else %}
+        <a href="/explore" class="btn btn-primary back-button">&#8592;</a>
+    {% endif %}
 
-    <a href="/explore" class="btn btn-primary back-button">&#8592;</a>
 
     <div id="map"></div>
-
+    <input type="hidden" id="markerLat" value="{{markerLat}}">
+    <input type="hidden" id="markerLng" value="{{markerLng}}">
     <script>
         var mymap;
 
@@ -76,8 +85,19 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            mymap = L.map('map').setView([52.4227, 10.7865], 13);
+            var markerLat = document.getElementById('markerLat').value;
+            var markerLng = document.getElementById('markerLng').value;
 
+            var test1 = parseFloat(markerLat);
+            var test2 = parseFloat(markerLng);
+
+            if (isNaN(test1) || isNaN(test2)) {
+            test1 = 52.4227;
+            test2 = 10.7865;
+            }
+
+            mymap = L.map('map').setView([test1, test2], 13);
+                //52.4227, 10.7865
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(mymap);
